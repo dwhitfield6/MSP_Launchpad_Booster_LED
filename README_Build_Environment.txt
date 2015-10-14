@@ -1,0 +1,1 @@
+The build environment is Code Composer Version: 6.1.1.00022  using the TI v4.4.6 compiler (free version). The debugger is the built in IMSP-EXP430FR5969.
