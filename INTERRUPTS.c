@@ -52,6 +52,7 @@
 /******************************************************************************/
 #include <msp430.h>
 
+#include "ADC.h"
 #include "BUTTON.h"
 #include "LED.h"
 #include "SPI.h"
@@ -72,6 +73,22 @@
 /******************************************************************************/
 /* Interrupt Routines                                                         */
 /******************************************************************************/
+
+/******************************************************************************/
+/* ADC interrupt
+ *                                                                            */
+/******************************************************************************/
+#pragma vector=ADC12_VECTOR
+__interrupt void ADC12_ISR(void)
+{
+	if(ADC12IFGR0 & ADC12IFG0)
+	{
+		/* ADC12MEM0 is loaded with a conversion result */
+		ADC_Ready= TRUE;
+		ADC_Read(CurrentChannel); // read the ADC then change the channel for the next reading
+	}
+	ADC12IFGR0 = 0;
+}
 
 /******************************************************************************/
 /* Port 1 interrupt (used for button 2)

@@ -6,11 +6,12 @@ USER.obj: C:/ti/ccsv6/ccs_base/msp430/include/msp430fr5969.h
 USER.obj: C:/ti/ccsv6/ccs_base/msp430/include/in430.h
 USER.obj: C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.5/include/intrinsics.h
 USER.obj: C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.5/include/intrinsics_legacy_undefs.h
+USER.obj: ../ADC.h
+USER.obj: ../USER.h
+USER.obj: ../SYSTEM.h
+USER.obj: ../USER.h
+USER.obj: ../SYSTEM.h
 USER.obj: ../BUTTON.h
-USER.obj: ../USER.h
-USER.obj: ../SYSTEM.h
-USER.obj: ../USER.h
-USER.obj: ../SYSTEM.h
 USER.obj: ../LED.h
 USER.obj: ../SPI.h
 USER.obj: ../TIMERS.h
@@ -23,11 +24,12 @@ C:/ti/ccsv6/ccs_base/msp430/include/msp430fr5969.h:
 C:/ti/ccsv6/ccs_base/msp430/include/in430.h: 
 C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.5/include/intrinsics.h: 
 C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.5/include/intrinsics_legacy_undefs.h: 
+../ADC.h: 
+../USER.h: 
+../SYSTEM.h: 
+../USER.h: 
+../SYSTEM.h: 
 ../BUTTON.h: 
-../USER.h: 
-../SYSTEM.h: 
-../USER.h: 
-../SYSTEM.h: 
 ../LED.h: 
 ../SPI.h: 
 ../TIMERS.h: 

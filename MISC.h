@@ -38,6 +38,7 @@
 /* Function prototypes                                                        */
 /******************************************************************************/
 void MSC_DelayUS(long US);
+long MSC_ABSL(long input);
 double MSC_ABS(double input);
 double MSC_Round(double input);
 void MSC_CleanBuffer(void* data, unsigned short bytes);

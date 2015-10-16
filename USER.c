@@ -20,6 +20,7 @@
 /******************************************************************************/
 #include <msp430.h>
 
+#include "ADC.h"
 #include "BUTTON.h"
 #include "LED.h"
 #include "SPI.h"
@@ -122,6 +123,16 @@ void Init_App(void)
 
     /* RX */
     Port_RX &= ~Pin_RX;	// set to input
+
+    /*~~~~~~~~~~~~~ Analog Audio ~~~~~~~~~~~~~~~~~*/
+	/* A3 */
+    Port_Audio &= ~Pin_Audio;	// set to input
+
+	/* A7 */
+    Port_AudioLow &= ~Pin_AudioLow;	// set to input
+
+	/* A10 */
+    Port_AudioRaw &= ~Pin_AudioRaw;	// set to input
 }
 
 /******************************************************************************/
@@ -138,6 +149,7 @@ void Init_System(void)
 	Init_SPI();
 	Init_TLC5940();
 	Init_UART();
+	Init_ADC();
 
 	__enable_interrupt();   // enable global interrupts
 }

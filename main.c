@@ -6,8 +6,11 @@
  * Date         Revision    Comments
  * MM/DD/YY
  * --------     ---------   ----------------------------------------------------
- * 10/12/15     4.0_DW0a    Initial project make (branched from
+ * 10/14/15     4.0_DW0a    Initial project make (branched from
  * 							  "MSP_Launchpad_MSP430FR5969_Test".
+ * 							Added base periperal functionality for ADC,
+ * 							  Timers, UART, and drivers for TLC5940.
+ * 							Added audio sampling to make a VU meter.
  *                                                                            */
 /******************************************************************************/
 
@@ -21,6 +24,7 @@
 /******************************************************************************/
 #include <msp430.h>
 
+#include "ADC.h"
 #include "LED.h"
 #include "MISC.h"
 #include "SYSTEM.h"
@@ -43,6 +47,7 @@
 int main (void)
 {
 	short temp = 0;
+	unsigned char direction;
 
 	WDTCTL = WDTPW | WDTHOLD;               // Stop watchdog timer
 
@@ -52,17 +57,20 @@ int main (void)
     Init_System();
     UART_PrintBanner();
 
+    /* Flash red and green leds */
     LED_DisplayShow();
+
+    /* Initialize variables */
+    direction = FadeDirection;
+    ADC_SetMidpointOffset();
 
     while(1)
     {
-    	TLC_SetLEDsLinear(temp, FadeDirection);
-    	temp++;
-    	if(temp > 200)
-		{
-			temp = 0;
-		}
-    	MSC_DelayUS(20000);
+    	temp = (ADC_SampleWait(AUDIO) - (ADC_MIDPOINT_OFFSET + 50));
+    	if(temp >= 0)
+    	{
+    		TLC_SetLEDsLinear(temp, 300, direction);
+    	}
     }
 	return 0;
 }

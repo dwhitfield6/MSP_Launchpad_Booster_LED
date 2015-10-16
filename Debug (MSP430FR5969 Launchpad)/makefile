@@ -10,6 +10,7 @@ GEN_OPTS__FLAG :=
 GEN_CMDS__FLAG := 
 
 ORDERED_OBJS += \
+"./ADC.obj" \
 "./BUTTON.obj" \
 "./INTERRUPTS.obj" \
 "./LED.obj" \
@@ -129,40 +130,40 @@ endif
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXE_OUTPUTS += \
-MSP_Launchpad_Booster_MSP430FR5969_LED_PWM.out \
+MSP_Launchpad_Booster_LED.out \
 
 EXE_OUTPUTS__QUOTED += \
-"MSP_Launchpad_Booster_MSP430FR5969_LED_PWM.out" \
+"MSP_Launchpad_Booster_LED.out" \
 
 BIN_OUTPUTS += \
-MSP_Launchpad_Booster_MSP430FR5969_LED_PWM.hex \
+MSP_Launchpad_Booster_LED.hex \
 
 BIN_OUTPUTS__QUOTED += \
-"MSP_Launchpad_Booster_MSP430FR5969_LED_PWM.hex" \
+"MSP_Launchpad_Booster_LED.hex" \
 
 
 # All Target
-all: MSP_Launchpad_Booster_MSP430FR5969_LED_PWM.out
+all: MSP_Launchpad_Booster_LED.out
 
 # Tool invocations
-MSP_Launchpad_Booster_MSP430FR5969_LED_PWM.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
+MSP_Launchpad_Booster_LED.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: MSP430 Linker'
-	"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.5/bin/cl430" -vmspx --abi=eabi --data_model=large -Ooff --use_hw_mpy=F5 --advice:power="all" --advice:hw_config="all" -g --define=__MSP430FR5969__ --define=_MPU_ENABLE --diag_warning=225 --diag_wrap=off --display_error_number --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU40 --printf_support=minimal -z -m"MSP_Launchpad_Booster_MSP430FR5969_LED_PWM.map" --heap_size=160 --stack_size=160 --cinit_hold_wdt=on -i"C:/ti/ccsv6/ccs_base/msp430/include" -i"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.5/lib" -i"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.5/include" -i"C:/ti/ccsv6/ccs_base/msp430/lib/5xx_6xx_FRxx" -i"C:/ti/ccsv6/ccs_base/msp430/lib/FR59xx" --reread_libs --priority --define=_MPU_ENABLE --warn_sections --diag_wrap=off --display_error_number --diag_suppress=#9-D --xml_link_info="MSP_Launchpad_Booster_MSP430FR5969_LED_PWM_linkInfo.xml" --use_hw_mpy=F5 --rom_model -o "MSP_Launchpad_Booster_MSP430FR5969_LED_PWM.out" $(ORDERED_OBJS)
+	"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.5/bin/cl430" -vmspx --abi=eabi --data_model=large -Ooff --use_hw_mpy=F5 --advice:power="all" --advice:hw_config="all" -g --define=__MSP430FR5969__ --define=_MPU_ENABLE --diag_warning=225 --diag_wrap=off --display_error_number --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU40 --printf_support=minimal -z -m"MSP_Launchpad_Booster_LED.map" --heap_size=160 --stack_size=160 --cinit_hold_wdt=on -i"C:/ti/ccsv6/ccs_base/msp430/include" -i"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.5/lib" -i"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.5/include" -i"C:/ti/ccsv6/ccs_base/msp430/lib/5xx_6xx_FRxx" -i"C:/ti/ccsv6/ccs_base/msp430/lib/FR59xx" --reread_libs --priority --define=_MPU_ENABLE --warn_sections --diag_wrap=off --display_error_number --diag_suppress=#9-D --xml_link_info="MSP_Launchpad_Booster_LED_linkInfo.xml" --use_hw_mpy=F5 --rom_model -o "MSP_Launchpad_Booster_LED.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
-MSP_Launchpad_Booster_MSP430FR5969_LED_PWM.hex: $(EXE_OUTPUTS)
+MSP_Launchpad_Booster_LED.hex: $(EXE_OUTPUTS)
 	@echo 'Invoking: MSP430 Hex Utility'
-	"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.5/bin/hex430" --memwidth=8 --romwidth=8 -o "MSP_Launchpad_Booster_MSP430FR5969_LED_PWM.hex" $(EXE_OUTPUTS__QUOTED)
+	"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.5/bin/hex430" --memwidth=8 --romwidth=8 -o "MSP_Launchpad_Booster_LED.hex" $(EXE_OUTPUTS__QUOTED)
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
 	-$(RM) $(EXE_OUTPUTS__QUOTED)$(BIN_OUTPUTS__QUOTED)
-	-$(RM) "BUTTON.pp" "INTERRUPTS.pp" "LED.pp" "MISC.pp" "SPI.pp" "SYSTEM.pp" "TIMERS.pp" "TLC5940.pp" "UART.pp" "USER.pp" "main.pp" 
-	-$(RM) "BUTTON.obj" "INTERRUPTS.obj" "LED.obj" "MISC.obj" "SPI.obj" "SYSTEM.obj" "TIMERS.obj" "TLC5940.obj" "UART.obj" "USER.obj" "main.obj" 
+	-$(RM) "ADC.pp" "BUTTON.pp" "INTERRUPTS.pp" "LED.pp" "MISC.pp" "SPI.pp" "SYSTEM.pp" "TIMERS.pp" "TLC5940.pp" "UART.pp" "USER.pp" "main.pp" 
+	-$(RM) "ADC.obj" "BUTTON.obj" "INTERRUPTS.obj" "LED.obj" "MISC.obj" "SPI.obj" "SYSTEM.obj" "TIMERS.obj" "TLC5940.obj" "UART.obj" "USER.obj" "main.obj" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

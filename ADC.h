@@ -6,15 +6,15 @@
  * Date         Revision    Comments
  * MM/DD/YY
  * --------     ---------   ----------------------------------------------------
- * 10/12/15     4.0_DW0a    Initial project make.
+ * 10/14/15     4.0_DW0a    Initial project make.
  *                                                                            */
 /******************************************************************************/
 
 /******************************************************************************/
 /* Files to Include                                                           */
 /******************************************************************************/
-#ifndef TLC5940_H
-#define	TLC5940_H
+#ifndef ADC_H
+#define	ADC_H
 
 #include <msp430.h>
 
@@ -22,24 +22,47 @@
 #include "SYSTEM.h"
 
 /******************************************************************************/
-/* NUMBER_LEDS
+/* ADC channels
  *
- * This is the number of LED channels in the system (TLC5940)
+ * This is the place in the buffer that the different raw count channels are
+ *  stored.
  *                                                                            */
 /******************************************************************************/
-#define NUMBER_LEDS 	16
+#define AUDIO 		0
+#define RAW			1
+#define AUDIORAW	RAW
+#define LOWPASS		2
+#define AUDIOLOW	LOWPASS
+
+/******************************************************************************/
+/* reference voltage
+ *
+ * This is the reference voltage for the ADC.
+ *                                                                            */
+/******************************************************************************/
+#define VOLTS_1v2 		12
+#define VOLTS_3v3 		33
+
+/******************************************************************************/
+/* ADC_NUMBER_CHANNELS
+ *
+ * This is the number of channels that we use on the ADC.
+ *                                                                            */
+/******************************************************************************/
+#define ADC_NUMBER_CHANNELS (LOWPASS + 1)
 
 /******************************************************************************/
 /* Defines                                                                    */
 /******************************************************************************/
-#define FORWARD 	0
-#define BACKWARD 	1
 
 /******************************************************************************/
 /* Global Variables                                                           */
 /******************************************************************************/
-extern unsigned short LEDs[16];
-extern unsigned char FadeDirection;
+extern short ADC_Counts[ADC_NUMBER_CHANNELS];
+extern volatile unsigned char ADC_Ready;
+extern volatile unsigned char CurrentChannel;
+extern unsigned char VREF;
+extern short ADC_MIDPOINT_OFFSET;
 
 /******************************************************************************/
 /* Macro Functions                                                            */
@@ -48,14 +71,15 @@ extern unsigned char FadeDirection;
 /******************************************************************************/
 /* Function prototypes                                                        */
 /******************************************************************************/
-void Init_TLC5940(void);
-void TLC_GSCLK(unsigned char state);
-void TLC_UpdateLEDs(void);
-void TLC_SetLEDsLinear(short value, short MaxValue, unsigned char direction);
-void TLC_SetLEDs(unsigned short* temp);
-void TLC_Blank(unsigned char state);
-void TLC_Blank(unsigned char state);
-void TLC_XLAT(unsigned char state);
-unsigned char TLC_XERRInterrupt(unsigned char state);
+void Init_ADC(void);
+short ADC_SetMidpointOffset(void);
+unsigned char ADC_Interrupt(unsigned char state);
+unsigned char ADC_Module(unsigned char state);
+unsigned char ADC_EnableConversion(unsigned char state);
+void ADC_Sample(unsigned char channel);
+short ADC_SampleWait(unsigned char channel);
+unsigned char ADC_Busy(void);
+short ADC_Read(unsigned char channel);
+unsigned char ADC_ChangeChannel(void);
 
-#endif	/* TLC5940_H */
+#endif	/* ADC_H */

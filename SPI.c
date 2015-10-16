@@ -213,7 +213,6 @@ unsigned char SPI_BusyB(unsigned char x)
 		{
 			return FALSE;
 		}
-		break;
 	}
 	return FALSE;
 }

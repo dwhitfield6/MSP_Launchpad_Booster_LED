@@ -113,14 +113,30 @@
 #define Pin_PWM_CLK		0x10  // P3.4
 
 
-/*************UART *************/
+/************* UART *************/
 /* Connected to UART transmit (TX) */
-#define Port_TX		P4DIR // P2.5
+#define Port_TX		P2DIR // P2.5
 #define Pin_TX		0x20  // P2.5
 
 /* Connected to UART receive (RX) */
 #define Port_RX		P2DIR // P2.6
 #define Pin_RX		0x40  // P2.6
+
+/************* Analog audio *************/
+/* Connected to OP amp output */
+#define Port_Audio		P1DIR 	// P1.3 used as A3
+#define Pin_Audio		0x08  	// P1.3 used as A3
+#define Channel_Audio	3  	  	// P1.3 used as A3
+
+/* Connected to output of low pass filter */
+#define Port_AudioLow		P2DIR 	// P2.4 used as A7
+#define Pin_AudioLow		0x10  	// P2.4 used as A7
+#define Channel_AudioLow	7  		// P2.4 used as A7
+
+/* Connected to the left channel of the stereo jack */
+#define Port_AudioRaw		P4DIR 	// P4.2 used as A10
+#define Pin_AudioRaw		0x04  	// P4.2 used as A10
+#define Channel_AudioRaw	10  	// P4.2 used as A10
 
 /******************************************************************************/
 /* Version variables                                                          */

@@ -7,6 +7,7 @@ CMD_SRCS += \
 ../lnk_msp430fr5969.cmd 
 
 C_SRCS += \
+../ADC.c \
 ../BUTTON.c \
 ../INTERRUPTS.c \
 ../LED.c \
@@ -20,6 +21,7 @@ C_SRCS += \
 ../main.c 
 
 OBJS += \
+./ADC.obj \
 ./BUTTON.obj \
 ./INTERRUPTS.obj \
 ./LED.obj \
@@ -33,6 +35,7 @@ OBJS += \
 ./main.obj 
 
 C_DEPS += \
+./ADC.pp \
 ./BUTTON.pp \
 ./INTERRUPTS.pp \
 ./LED.pp \
@@ -46,6 +49,7 @@ C_DEPS += \
 ./main.pp 
 
 C_DEPS__QUOTED += \
+"ADC.pp" \
 "BUTTON.pp" \
 "INTERRUPTS.pp" \
 "LED.pp" \
@@ -59,6 +63,7 @@ C_DEPS__QUOTED += \
 "main.pp" 
 
 OBJS__QUOTED += \
+"ADC.obj" \
 "BUTTON.obj" \
 "INTERRUPTS.obj" \
 "LED.obj" \
@@ -72,6 +77,7 @@ OBJS__QUOTED += \
 "main.obj" 
 
 C_SRCS__QUOTED += \
+"../ADC.c" \
 "../BUTTON.c" \
 "../INTERRUPTS.c" \
 "../LED.c" \

@@ -56,6 +56,25 @@ void MSC_DelayUS(long US)
 }
 
 /******************************************************************************/
+/* MSC_ABSL
+ *
+ * The function returns the absolute value of the number.
+ *
+ * Input: number
+ * Output: absolute value of number
+ * Action: calculates the absolute vaule of the input
+ *                                                                            */
+/******************************************************************************/
+long MSC_ABSL(long input)
+{
+	if(input < 0)
+	{
+		input *= -1;
+	}
+	return input;
+}
+
+/******************************************************************************/
 /* MSC_ABS
  *
  * The function returns the absolute value of the number.

@@ -114,16 +114,26 @@ void TLC_UpdateLEDs(void)
 		SPI_WriteB(0,data);
 	}
 
+	NOP();
+	NOP();
 	TLC_Blank(ON);
+	NOP();
+	NOP();
 	NOP();
 	NOP();
 	TLC_XLAT(ON);
 	NOP();
 	NOP();
+	NOP();
+	NOP();
 	TLC_XLAT(OFF);
 	NOP();
 	NOP();
+	NOP();
+	NOP();
 	TLC_Blank(OFF);
+	NOP();
+	NOP();
 	NOP();
 	NOP();
 	TLC_GSCLK(ON);
@@ -134,15 +144,16 @@ void TLC_UpdateLEDs(void)
  *
  * The function sets the brighness of the LEDs based on 1 value.
  *
- * Input: brightness(0 to 8192), direction (FORWARD or BACKWARD)
+ * Input: brightness(0 to maximum), maximum value (0 - 8092), direction (FORWARD or BACKWARD)
  * Output: N/A
  * Action: controls the brighness of the LEDS.
  *                                                                            */
 /******************************************************************************/
-void TLC_SetLEDsLinear(short value, unsigned char direction)
+void TLC_SetLEDsLinear(short value, short MaxValue, unsigned char direction)
 {
 	short temp[16];
 	unsigned char i;
+	unsigned char place;
 
 	if(direction == FORWARD)
 	{
@@ -157,7 +168,7 @@ void TLC_SetLEDsLinear(short value, unsigned char direction)
 		}
 		for(i=1;i<16;i++)
 		{
-			temp[i] = value - (2 * i); // 273 for full scale
+			temp[i] = value - ((MaxValue >> 4) * i);
 			if(temp[i] >0x0FFF)
 			{
 				temp[i] = 0x0FFF;
@@ -181,14 +192,15 @@ void TLC_SetLEDsLinear(short value, unsigned char direction)
 		}
 		for(i=1;i<16;i++)
 		{
-			temp[15 - i] = value - (10 * i); // 273 for full scale
-			if(temp[15 - i] >0x0FFF)
+			place = 15 - i;
+			temp[place] = value - ((MaxValue >> 4) * i);
+			if(temp[place] >0x0FFF)
 			{
-				temp[15 - i] = 0x0FFF;
+				temp[place] = 0x0FFF;
 			}
-			if(temp[15 - i] <= 0)
+			if(temp[place] <= 0)
 			{
-				temp[15 - i] = 0;
+				temp[place] = 0;
 			}
 		}
 	}
