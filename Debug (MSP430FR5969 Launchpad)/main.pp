@@ -13,6 +13,7 @@ main.obj: ../USER.h
 main.obj: ../SYSTEM.h
 main.obj: ../LED.h
 main.obj: ../MISC.h
+main.obj: ../PROCESSING.h
 main.obj: ../TLC5940.h
 main.obj: ../UART.h
 
@@ -29,5 +30,6 @@ C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.5/include/intrinsics_legacy_undefs.
 ../SYSTEM.h: 
 ../LED.h: 
 ../MISC.h: 
+../PROCESSING.h: 
 ../TLC5940.h: 
 ../UART.h: 

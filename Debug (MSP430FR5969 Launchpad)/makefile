@@ -15,6 +15,7 @@ ORDERED_OBJS += \
 "./INTERRUPTS.obj" \
 "./LED.obj" \
 "./MISC.obj" \
+"./PROCESSING.obj" \
 "./SPI.obj" \
 "./SYSTEM.obj" \
 "./TIMERS.obj" \
@@ -162,8 +163,8 @@ MSP_Launchpad_Booster_LED.hex: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(EXE_OUTPUTS__QUOTED)$(BIN_OUTPUTS__QUOTED)
-	-$(RM) "ADC.pp" "BUTTON.pp" "INTERRUPTS.pp" "LED.pp" "MISC.pp" "SPI.pp" "SYSTEM.pp" "TIMERS.pp" "TLC5940.pp" "UART.pp" "USER.pp" "main.pp" 
-	-$(RM) "ADC.obj" "BUTTON.obj" "INTERRUPTS.obj" "LED.obj" "MISC.obj" "SPI.obj" "SYSTEM.obj" "TIMERS.obj" "TLC5940.obj" "UART.obj" "USER.obj" "main.obj" 
+	-$(RM) "ADC.pp" "BUTTON.pp" "INTERRUPTS.pp" "LED.pp" "MISC.pp" "PROCESSING.pp" "SPI.pp" "SYSTEM.pp" "TIMERS.pp" "TLC5940.pp" "UART.pp" "USER.pp" "main.pp" 
+	-$(RM) "ADC.obj" "BUTTON.obj" "INTERRUPTS.obj" "LED.obj" "MISC.obj" "PROCESSING.obj" "SPI.obj" "SYSTEM.obj" "TIMERS.obj" "TLC5940.obj" "UART.obj" "USER.obj" "main.obj" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

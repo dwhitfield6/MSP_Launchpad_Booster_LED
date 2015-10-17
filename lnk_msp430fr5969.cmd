@@ -1,34 +1,15 @@
-/* ============================================================================ */
-/* Copyright (c) 2015, Texas Instruments Incorporated                           */
-/*  All rights reserved.                                                        */
-/*                                                                              */
-/*  Redistribution and use in source and binary forms, with or without          */
-/*  modification, are permitted provided that the following conditions          */
-/*  are met:                                                                    */
-/*                                                                              */
-/*  *  Redistributions of source code must retain the above copyright           */
-/*     notice, this list of conditions and the following disclaimer.            */
-/*                                                                              */
-/*  *  Redistributions in binary form must reproduce the above copyright        */
-/*     notice, this list of conditions and the following disclaimer in the      */
-/*     documentation and/or other materials provided with the distribution.     */
-/*                                                                              */
-/*  *  Neither the name of Texas Instruments Incorporated nor the names of      */
-/*     its contributors may be used to endorse or promote products derived      */
-/*     from this software without specific prior written permission.            */
-/*                                                                              */
-/*  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" */
-/*  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,       */
-/*  THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR      */
-/*  PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR            */
-/*  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,       */
-/*  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,         */
-/*  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; */
-/*  OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,    */
-/*  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR     */
-/*  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,              */
-/*  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.                          */
-/* ============================================================================ */
+/******************************************************************************/
+/* Change log                                                                 *
+ *
+ *
+ *
+ * Date         Revision    Comments
+ * MM/DD/YY
+ * --------     ---------   ----------------------------------------------------
+ * 10/14/15     4.0_DW0a    Branch from default command file Version: 1.173.
+ *                          Add allocation for FRAM variables.
+ *                                                                            */
+/******************************************************************************/
 
 /******************************************************************************/
 /* lnk_msp430fr5969.cmd - LINKER COMMAND FILE FOR LINKING MSP430FR5969 PROGRAMS     */
@@ -61,7 +42,8 @@ MEMORY
     INFOB                   : origin = 0x1900, length = 0x0080
     INFOC                   : origin = 0x1880, length = 0x0080
     INFOD                   : origin = 0x1800, length = 0x0080
-    FRAM                    : origin = 0x4400, length = 0xBB80
+    FRAM_VARS               : origin = 0x4400, length = 0x1C00
+    FRAM                    : origin = 0x6000, length = 0x9F80
     FRAM2                   : origin = 0x10000,length = 0x4000
     JTAGSIGNATURE           : origin = 0xFF80, length = 0x0004, fill = 0xFFFF
     BSLSIGNATURE            : origin = 0xFF84, length = 0x0004, fill = 0xFFFF
@@ -135,7 +117,9 @@ SECTIONS
        .TI.persistent : {}                  /* For #pragma persistent            */
        .cio           : {}                  /* C I/O Buffer                      */
        .sysmem        : {}                  /* Dynamic memory allocation area    */
-    } PALIGN(0x0400), RUN_END(fram_rx_start) > 0x4400
+    } PALIGN(0x0400), RUN_END(fram_rx_start) > 0x6000
+
+    .fram_vars        : {} > FRAM_VARS type=NOINIT     /* FRAM variables that are not initialized */
 
     .cinit            : {}  > FRAM          /* Initialization tables             */
     .pinit            : {}  > FRAM          /* C++ Constructor tables            */

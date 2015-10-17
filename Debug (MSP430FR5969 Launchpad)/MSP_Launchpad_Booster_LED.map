@@ -1,10 +1,10 @@
 ******************************************************************************
                   MSP430 Linker PC v4.4.5                      
 ******************************************************************************
->> Linked Thu Oct 15 18:16:45 2015
+>> Linked Fri Oct 16 18:38:00 2015
 
 OUTPUT FILE NAME:   <MSP_Launchpad_Booster_LED.out>
-ENTRY POINT SYMBOL: "_c_int00_noargs_noexit_mpu"  address: 000045e6
+ENTRY POINT SYMBOL: "_c_int00_noargs_noexit_mpu"  address: 000061d0
 
 
 MEMORY CONFIGURATION
@@ -18,8 +18,9 @@ MEMORY CONFIGURATION
   INFOC                 00001880   00000080  00000000  00000080  RWIX
   INFOB                 00001900   00000080  00000000  00000080  RWIX
   INFOA                 00001980   00000080  00000000  00000080  RWIX
-  RAM                   00001c00   00000800  000004f8  00000308  RWIX
-  FRAM                  00004400   0000bb80  0000053e  0000b642  RWIX
+  RAM                   00001c00   00000800  00000640  000001c0  RWIX
+  FRAM_VARS             00004400   00001c00  000007d0  00001430  RWIX
+  FRAM                  00006000   00009f80  00000888  000096f8  RWIX
   JTAGSIGNATURE         0000ff80   00000004  00000004  00000000  RWIX  ffff 
   BSLSIGNATURE          0000ff84   00000004  00000004  00000000  RWIX  ffff 
   IPESIGNATURE          0000ff88   00000008  00000008  00000000  RWIX  ffff 
@@ -79,7 +80,7 @@ MEMORY CONFIGURATION
   INT53                 0000fffa   00000002  00000002  00000000  RWIX
   INT54                 0000fffc   00000002  00000002  00000000  RWIX
   RESET                 0000fffe   00000002  00000002  00000000  RWIX
-  FRAM2                 00010000   00004000  00003152  00000eae  RWIX
+  FRAM2                 00010000   00004000  00004000  00000000  RWIX
 
 
 SECTION ALLOCATION MAP
@@ -87,70 +88,125 @@ SECTION ALLOCATION MAP
  output                                  attributes/
 section   page    origin      length       input sections
 --------  ----  ----------  ----------   ----------------
-.bss       0    00001c00    00000428     UNINITIALIZED
+.bss       0    00001c00    0000042c     UNINITIALIZED
                   00001c00    00000200     (.common:RX_Buffer)
                   00001e00    00000200     (.common:TX_Buffer)
                   00002000    00000020     (.common:LEDs)
                   00002020    00000006     (.common:ADC_Counts)
-                  00002026    00000002     (.common:ADC_MIDPOINT_OFFSET)
+                  00002026    00000006     (.common:ADC_Midpoint_Offset)
 
-.data      0    00002028    00000030     UNINITIALIZED
-                  00002028    00000024     SYSTEM.obj (.data)
-                  0000204c    00000007     UART.obj (.data)
-                  00002053    00000003     ADC.obj (.data)
-                  00002056    00000001     SPI.obj (.data)
-                  00002057    00000001     TLC5940.obj (.data)
+.data      0    0000202c    00000174     UNINITIALIZED
+                  0000202c    000000b0     rts430x_lc_ld_eabi.lib : signal.obj (.data:sigtable)
+                  000020dc    00000080                            : xvalues.obj (.data)
+                  0000215c    00000024     SYSTEM.obj (.data)
+                  00002180    00000008     rts430x_lc_ld_eabi.lib : feraiseexcept.obj (.data)
+                  00002188    00000007     UART.obj (.data)
+                  0000218f    00000001     SPI.obj (.data)
+                  00002190    00000004     rts430x_lc_ld_eabi.lib : _lock.obj (.data:_lock)
+                  00002194    00000004                            : _lock.obj (.data:_unlock)
+                  00002198    00000003     ADC.obj (.data)
+                  0000219b    00000001     TLC5940.obj (.data)
+                  0000219c    00000002     PROCESSING.obj (.data)
+                  0000219e    00000002     rts430x_lc_ld_eabi.lib : errno.obj (.data)
 
 .stack     0    00002360    000000a0     UNINITIALIZED
                   00002360    00000004     rts430x_lc_ld_eabi.lib : boot.obj (.stack)
                   00002364    0000009c     --HOLE--
 
+.fram_vars 
+*          0    00004400    000007d0     UNINITIALIZED
+                  00004400    000007d0     PROCESSING.obj (.fram_vars)
+
 .TI.persistent 
-*          0    00004400    00000000     UNINITIALIZED
+*          0    00006000    00000000     UNINITIALIZED
 
-.cio       0    00004400    00000000     UNINITIALIZED
+.cio       0    00006000    00000000     UNINITIALIZED
 
-.sysmem    0    00004400    00000000     UNINITIALIZED
+.sysmem    0    00006000    00000000     UNINITIALIZED
 
 .text:_isr 
-*          0    00004400    00000258     
-                  00004400    000000d2     INTERRUPTS.obj (.text:_isr:USCI_A1_ISR)
-                  000044d2    00000042     INTERRUPTS.obj (.text:_isr:USCI_B0_ISR)
-                  00004514    0000003c     INTERRUPTS.obj (.text:_isr:Port4_ISR)
-                  00004550    00000038     INTERRUPTS.obj (.text:_isr:Port1_ISR)
-                  00004588    00000030     INTERRUPTS.obj (.text:_isr:TIMER1_A0_ISR)
-                  000045b8    0000002e     INTERRUPTS.obj (.text:_isr:TIMER0_A0_ISR)
-                  000045e6    0000001e     rts430x_lc_ld_eabi.lib : boot_special.obj (.text:_isr:_c_int00_noargs_noexit_mpu)
-                  00004604    0000001c     INTERRUPTS.obj (.text:_isr:ADC12_ISR)
-                  00004620    0000000e     INTERRUPTS.obj (.text:_isr:Timer2_A0_ISR)
-                  0000462e    0000000c     INTERRUPTS.obj (.text:_isr:TIMER0_A1_ISR)
-                  0000463a    0000000c     INTERRUPTS.obj (.text:_isr:TIMER1_A1_ISR)
-                  00004646    0000000c     INTERRUPTS.obj (.text:_isr:Timer2_A1_ISR)
-                  00004652    00000006     rts430x_lc_ld_eabi.lib : isr_trap.obj (.text:_isr:__TI_ISR_TRAP)
+*          0    00006000    00000242     
+                  00006000    000000d2     INTERRUPTS.obj (.text:_isr:USCI_A1_ISR)
+                  000060d2    00000042     INTERRUPTS.obj (.text:_isr:Port1_ISR)
+                  00006114    00000042     INTERRUPTS.obj (.text:_isr:USCI_B0_ISR)
+                  00006156    00000038     INTERRUPTS.obj (.text:_isr:Port4_ISR)
+                  0000618e    00000022     INTERRUPTS.obj (.text:_isr:TIMER1_A0_ISR)
+                  000061b0    00000020     INTERRUPTS.obj (.text:_isr:TIMER0_A0_ISR)
+                  000061d0    0000001e     rts430x_lc_ld_eabi.lib : boot_special.obj (.text:_isr:_c_int00_noargs_noexit_mpu)
+                  000061ee    0000001c     INTERRUPTS.obj (.text:_isr:ADC12_ISR)
+                  0000620a    0000000e     INTERRUPTS.obj (.text:_isr:Timer2_A0_ISR)
+                  00006218    0000000c     INTERRUPTS.obj (.text:_isr:TIMER0_A1_ISR)
+                  00006224    0000000c     INTERRUPTS.obj (.text:_isr:TIMER1_A1_ISR)
+                  00006230    0000000c     INTERRUPTS.obj (.text:_isr:Timer2_A1_ISR)
+                  0000623c    00000006     rts430x_lc_ld_eabi.lib : isr_trap.obj (.text:_isr:__TI_ISR_TRAP)
 
 .ipestruct 
-*          0    00004400    00000000     UNINITIALIZED
+*          0    00006000    00000000     UNINITIALIZED
 
-.ipe       0    00004400    00000000     UNINITIALIZED
+.ipe       0    00006000    00000000     UNINITIALIZED
 
 .ipe:_isr 
-*          0    00004400    00000000     UNINITIALIZED
+*          0    00006000    00000000     UNINITIALIZED
 
 .ipe_vars 
-*          0    00004400    00000000     UNINITIALIZED
+*          0    00006000    00000000     UNINITIALIZED
 
-.cinit     0    00004902    0000003c     
-                  00004902    0000001a     (.cinit..data.load) [load image, compression = rle]
-                  0000491c    0000000c     (__TI_handler_table)
-                  00004928    00000006     (.cinit..bss.load) [load image, compression = zero_init]
-                  0000492e    00000010     (__TI_cinit_table)
+.cinit     0    00006810    00000078     
+                  00006810    00000055     (.cinit..data.load) [load image, compression = rle]
+                  00006865    00000001     --HOLE-- [fill = 0]
+                  00006866    0000000c     (__TI_handler_table)
+                  00006872    00000006     (.cinit..bss.load) [load image, compression = zero_init]
+                  00006878    00000010     (__TI_cinit_table)
 
 .init_array 
-*          0    00004400    00000000     UNINITIALIZED
+*          0    00006000    00000000     UNINITIALIZED
 
-.const     0    00004658    000002aa     
-                  00004658    00000240     UART.obj (.const:Table_UCBRSx)
-                  00004898    0000006a     UART.obj (.const:.string)
+.text.1    0    00006242    00000324     
+                  00006242    0000002a     rts430x_lc_ld_eabi.lib : memcpy.obj (.text:memcpy)
+                  0000626c    00000028     USER.obj (.text:Init_System)
+                  00006294    00000028     MSPMPU_INIT_LIB_CCS_msp430_large_code_large_data.lib : mpu_init.o (.text:__mpu_init)
+                  000062bc    00000028     rts430x_lc_ld_eabi.lib : fixdi.obj (.text:__mspabi_fixdi)
+                  000062e4    00000026     UART.obj (.text:UART_SendString)
+                  0000630a    00000024     rts430x_lc_ld_eabi.lib : copy_zero_init.obj (.text:decompress:ZI:__TI_zero_init)
+                  0000632e    00000022     ADC.obj (.text:ADC_Read)
+                  00006350    00000022     SPI.obj (.text:SPI_BusyB)
+                  00006372    00000022     rts430x_lc_ld_eabi.lib : mult32_f5hw.obj (.text)
+                  00006394    0000001e     ADC.obj (.text:ADC_SetMidpointOffset)
+                  000063b2    0000001c     ADC.obj (.text:ADC_SampleWait)
+                  000063ce    0000001a     TLC5940.obj (.text:TLC_Blank)
+                  000063e8    0000001a     TLC5940.obj (.text:TLC_XLAT)
+                  00006402    0000001a     UART.obj (.text:UART_SendStringCRLN)
+                  0000641c    00000016     UART.obj (.text:UART_CleanBufferTX)
+                  00006432    00000016     rts430x_lc_ld_eabi.lib : copy_decompress_none.obj (.text:decompress:none:__TI_decompress_none)
+                  00006448    00000016                            : div16u.obj (.text)
+                  0000645e    00000016                            : mult16_f5hw.obj (.text)
+                  00006474    00000012     UART.obj (.text:UART_CleanBufferRX)
+                  00006486    00000010     ADC.obj (.text:ADC_ReferenceBusy)
+                  00006496    00000010     rts430x_lc_ld_eabi.lib : asr32.obj (.text:l_asr)
+                  000064a6    00000010                            : lsl32.obj (.text:l_lsl)
+                  000064b6    00000010                            : lsr32.obj (.text:l_lsr)
+                  000064c6    0000000e     TIMERS.obj (.text:Init_Timers)
+                  000064d4    0000000e     PROCESSING.obj (.text:PRO_ClearProcessBuffer)
+                  000064e2    0000000e     TIMERS.obj (.text:TMR_SetTimerA0)
+                  000064f0    0000000e     TIMERS.obj (.text:TMR_SetTimerA1)
+                  000064fe    0000000e     TIMERS.obj (.text:TMR_SetTimerA2)
+                  0000650c    0000000c     rts430x_lc_ld_eabi.lib : fltid.obj (.text:__mspabi_fltid)
+                  00006518    0000000a                            : lsl16.obj (.text)
+                  00006522    0000000a                            : lsr16.obj (.text)
+                  0000652c    00000008     LED.obj (.text:LED_RedToggle)
+                  00006534    00000008     SYSTEM.obj (.text:SYS_Unlock)
+                  0000653c    00000006     PROCESSING.obj (.text:Init_Processing)
+                  00006542    00000006     LED.obj (.text:LED_GreenToggle)
+                  00006548    00000006     TIMERS.obj (.text:TMR_ResetTimerA0)
+                  0000654e    00000006     TIMERS.obj (.text:TMR_ResetTimerA1)
+                  00006554    00000006     TIMERS.obj (.text:TMR_ResetTimerA2)
+                  0000655a    00000006     rts430x_lc_ld_eabi.lib : copy_decompress_rle.obj (.text:decompress:rle24:__TI_decompress_rle24)
+                  00006560    00000004                            : exit.obj (.text:abort)
+                  00006564    00000002                            : _lock.obj (.text:_nop)
+
+.const     0    00006566    000002aa     
+                  00006566    00000240     UART.obj (.const:Table_UCBRSx)
+                  000067a6    0000006a     UART.obj (.const:.string)
 
 $fill000   0    0000ff80    00000004     
                   0000ff80    00000004     --HOLE-- [fill = ffff]
@@ -249,121 +305,100 @@ SYSNMI     0    0000fffc    00000002
 .reset     0    0000fffe    00000002     
                   0000fffe    00000002     rts430x_lc_ld_eabi.lib : boot.obj (.reset)
 
-.text      0    00010000    00003152     
-                  00010000    000006a4     SYSTEM.obj (.text:SYS_CalculateClocks)
-                  000106a4    00000452     rts430x_lc_ld_eabi.lib : frcdivd.obj (.text:__TI_frcdivd)
-                  00010af6    000002e4                            : frcmpyd.obj (.text:__TI_frcmpyd)
-                  00010dda    000002d8                            : addd.obj (.text:__mspabi_addd)
-                  000110b2    00000282                            : mpyd.obj (.text:__mspabi_mpyd)
-                  00011334    00000252                            : frcaddd.obj (.text:__TI_frcaddd)
-                  00011586    00000222                            : divd.obj (.text:__mspabi_divd)
-                  000117a8    000001a0     UART.obj (.text:UART_Parameters)
-                  00011948    00000184     TLC5940.obj (.text:TLC_SetLEDsLinear)
-                  00011acc    000000fc     UART.obj (.text:UART_LookupUCBRSx)
-                  00011bc8    000000da     TLC5940.obj (.text:TLC_UpdateLEDs)
-                  00011ca2    000000d8     rts430x_lc_ld_eabi.lib : cmpd.obj (.text:__mspabi_cmpd)
-                  00011d7a    000000d6     ADC.obj (.text:Init_ADC)
-                  00011e50    000000d0     SPI.obj (.text:SPI_SetParametersB)
-                  00011f20    000000b2     rts430x_lc_ld_eabi.lib : renormd.obj (.text:__TI_renormd)
-                  00011fd2    000000a4     SPI.obj (.text:SPI_WriteB)
-                  00012076    00000094     rts430x_lc_ld_eabi.lib : fltlid.obj (.text:__mspabi_fltlid)
-                  0001210a    00000092                            : autoinit_wdt.obj (.text:_auto_init_hold_wdt)
-                  0001219c    00000086     USER.obj (.text:Init_App)
-                  00012222    0000007a     TIMERS.obj (.text:TMR_ModeTimerA0)
-                  0001229c    0000007a     TIMERS.obj (.text:TMR_ModeTimerA1)
-                  00012316    0000007a     TIMERS.obj (.text:TMR_ModeTimerA2)
-                  00012390    00000076     MISC.obj (.text:MSC_ABS)
-                  00012406    00000076     rts430x_lc_ld_eabi.lib : fltuld.obj (.text:__mspabi_fltuld)
-                  0001247c    00000068                            : copy_decompress_rle.obj (.text:__TI_decompress_rle_core)
-                  000124e4    00000066                            : fixdli.obj (.text:__mspabi_fixdli)
-                  0001254a    00000062     UART.obj (.text:UART_PrintBanner)
-                  000125ac    0000005c     SPI.obj (.text:Init_SPI)
-                  00012608    00000058     SYSTEM.obj (.text:SYS_ConfigureOscillator)
-                  00012660    00000054     ADC.obj (.text:ADC_Sample)
-                  000126b4    00000054     main.obj (.text:main)
-                  00012708    0000004e     UART.obj (.text:Init_UART)
-                  00012756    0000004c     ADC.obj (.text:ADC_Module)
-                  000127a2    0000004c     MISC.obj (.text:MSC_Round)
-                  000127ee    00000048     LED.obj (.text:LED_DisplayShow)
-                  00012836    00000046     TLC5940.obj (.text:TLC_SetLEDs)
-                  0001287c    00000042     MISC.obj (.text:MSC_DelayUS)
-                  000128be    00000042     SPI.obj (.text:SPI_ModuleInterruptsB)
-                  00012900    0000003e     SPI.obj (.text:SPI_ModuleB)
-                  0001293e    0000003e     rts430x_lc_ld_eabi.lib : asr32.obj (.text:l_asr_const)
-                  0001297c    0000003e                            : lsl32.obj (.text:l_lsl_const)
-                  000129ba    0000003e                            : lsr32.obj (.text:l_lsr_const)
-                  000129f8    00000038     TLC5940.obj (.text:Init_TLC5940)
-                  00012a30    00000036     BUTTON.obj (.text:Init_Buttons)
-                  00012a66    00000036     TIMERS.obj (.text:Init_TimerA0)
-                  00012a9c    00000036     TIMERS.obj (.text:Init_TimerA1)
-                  00012ad2    00000036     TIMERS.obj (.text:Init_TimerA2)
-                  00012b08    00000036     MISC.obj (.text:MSC_CleanBuffer)
-                  00012b3e    00000032     BUTTON.obj (.text:BUT_Button1Interrupt)
-                  00012b70    00000032     LED.obj (.text:LED_Red)
-                  00012ba2    00000032     TLC5940.obj (.text:TLC_XERRInterrupt)
-                  00012bd4    00000032     UART.obj (.text:UART_ReceiveInterrupt)
-                  00012c06    00000032     UART.obj (.text:UART_TransmitInterrupt)
-                  00012c38    00000032     rts430x_lc_ld_eabi.lib : subd.obj (.text:__mspabi_subd)
-                  00012c6a    00000030     TLC5940.obj (.text:TLC_GSCLK)
-                  00012c9a    0000002c     ADC.obj (.text:ADC_EnableConversion)
-                  00012cc6    0000002c     ADC.obj (.text:ADC_Interrupt)
-                  00012cf2    0000002c     BUTTON.obj (.text:BUT_Button2Interrupt)
-                  00012d1e    0000002c     LED.obj (.text:LED_Green)
-                  00012d4a    0000002c     TIMERS.obj (.text:TMR_InterruptTimerA0)
-                  00012d76    0000002c     TIMERS.obj (.text:TMR_InterruptTimerA1)
-                  00012da2    0000002c     TIMERS.obj (.text:TMR_InterruptTimerA2)
-                  00012dce    0000002c     UART.obj (.text:UART_Module)
-                  00012dfa    0000002c     UART.obj (.text:UART_SendChar)
-                  00012e26    0000002c     UART.obj (.text:UART_Sleep)
-                  00012e52    0000002c     rts430x_lc_ld_eabi.lib : div16s.obj (.text)
-                  00012e7e    0000002a                            : memcpy.obj (.text:memcpy)
-                  00012ea8    00000028     MSPMPU_INIT_LIB_CCS_msp430_large_code_large_data.lib : mpu_init.o (.text:__mpu_init)
-                  00012ed0    00000028     rts430x_lc_ld_eabi.lib : fixdi.obj (.text:__mspabi_fixdi)
-                  00012ef8    00000026     UART.obj (.text:UART_SendString)
-                  00012f1e    00000024     rts430x_lc_ld_eabi.lib : copy_zero_init.obj (.text:decompress:ZI:__TI_zero_init)
-                  00012f42    00000022     ADC.obj (.text:ADC_Read)
-                  00012f64    00000022     SPI.obj (.text:SPI_BusyB)
-                  00012f86    00000022     rts430x_lc_ld_eabi.lib : mult32_f5hw.obj (.text)
-                  00012fa8    00000020     USER.obj (.text:Init_System)
-                  00012fc8    0000001c     ADC.obj (.text:ADC_SampleWait)
-                  00012fe4    0000001a     TLC5940.obj (.text:TLC_Blank)
-                  00012ffe    0000001a     TLC5940.obj (.text:TLC_XLAT)
-                  00013018    0000001a     UART.obj (.text:UART_SendStringCRLN)
-                  00013032    00000016     UART.obj (.text:UART_CleanBufferTX)
-                  00013048    00000016     rts430x_lc_ld_eabi.lib : copy_decompress_none.obj (.text:decompress:none:__TI_decompress_none)
-                  0001305e    00000016                            : div16u.obj (.text)
-                  00013074    00000016                            : mult16_f5hw.obj (.text)
-                  0001308a    00000012     UART.obj (.text:UART_CleanBufferRX)
-                  0001309c    00000010     rts430x_lc_ld_eabi.lib : asr32.obj (.text:l_asr)
-                  000130ac    00000010                            : lsl32.obj (.text:l_lsl)
-                  000130bc    00000010                            : lsr32.obj (.text:l_lsr)
-                  000130cc    0000000e     TIMERS.obj (.text:Init_Timers)
-                  000130da    0000000e     TIMERS.obj (.text:TMR_SetTimerA0)
-                  000130e8    0000000e     TIMERS.obj (.text:TMR_SetTimerA1)
-                  000130f6    0000000e     TIMERS.obj (.text:TMR_SetTimerA2)
-                  00013104    0000000c     ADC.obj (.text:ADC_SetMidpointOffset)
-                  00013110    0000000c     rts430x_lc_ld_eabi.lib : fltid.obj (.text:__mspabi_fltid)
-                  0001311c    00000008     LED.obj (.text:LED_RedToggle)
-                  00013124    00000008     SYSTEM.obj (.text:SYS_Unlock)
-                  0001312c    00000006     LED.obj (.text:LED_GreenToggle)
-                  00013132    00000006     TIMERS.obj (.text:TMR_ResetTimerA0)
-                  00013138    00000006     TIMERS.obj (.text:TMR_ResetTimerA1)
-                  0001313e    00000006     TIMERS.obj (.text:TMR_ResetTimerA2)
-                  00013144    00000006     rts430x_lc_ld_eabi.lib : copy_decompress_rle.obj (.text:decompress:rle24:__TI_decompress_rle24)
-                  0001314a    00000004                            : pre_init.obj (.text:_system_pre_init)
-                  0001314e    00000004                            : exit.obj (.text:abort)
+.text.2    0    00010000    00004000     
+                  00010000    000009e4     PROCESSING.obj (.text:PRO_ProcessData)
+                  000109e4    000006a4     SYSTEM.obj (.text:SYS_CalculateClocks)
+                  00011088    00000452     rts430x_lc_ld_eabi.lib : frcdivd.obj (.text:__TI_frcdivd)
+                  000114da    000002e4                            : frcmpyd.obj (.text:__TI_frcmpyd)
+                  000117be    000002d8                            : addd.obj (.text:__mspabi_addd)
+                  00011a96    00000282                            : mpyd.obj (.text:__mspabi_mpyd)
+                  00011d18    00000252                            : frcaddd.obj (.text:__TI_frcaddd)
+                  00011f6a    00000222                            : divd.obj (.text:__mspabi_divd)
+                  0001218c    000001f0                            : sqrt.obj (.text:sqrt)
+                  0001237c    000001a0     UART.obj (.text:UART_Parameters)
+                  0001251c    0000019e     rts430x_lc_ld_eabi.lib : xdscale.obj (.text:_Dscale)
+                  000126ba    00000184     TLC5940.obj (.text:TLC_SetLEDsLinear)
+                  0001283e    00000100     rts430x_lc_ld_eabi.lib : xdnorm.obj (.text:_Dnorm)
+                  0001293e    000000fc     UART.obj (.text:UART_LookupUCBRSx)
+                  00012a3a    000000f0     ADC.obj (.text:ADC_SetReference)
+                  00012b2a    000000da     TLC5940.obj (.text:TLC_UpdateLEDs)
+                  00012c04    000000d8     rts430x_lc_ld_eabi.lib : cmpd.obj (.text:__mspabi_cmpd)
+                  00012cdc    000000d0     SPI.obj (.text:SPI_SetParametersB)
+                  00012dac    000000b2     rts430x_lc_ld_eabi.lib : renormd.obj (.text:__TI_renormd)
+                  00012e5e    000000a4     SPI.obj (.text:SPI_WriteB)
+                  00012f02    00000096     USER.obj (.text:Init_App)
+                  00012f98    00000094     ADC.obj (.text:Init_ADC)
+                  0001302c    00000094     rts430x_lc_ld_eabi.lib : fltlid.obj (.text:__mspabi_fltlid)
+                  000130c0    00000092                            : autoinit_wdt.obj (.text:_auto_init_hold_wdt)
+                  00013152    0000007a     TIMERS.obj (.text:TMR_ModeTimerA0)
+                  000131cc    0000007a     TIMERS.obj (.text:TMR_ModeTimerA1)
+                  00013246    0000007a     TIMERS.obj (.text:TMR_ModeTimerA2)
+                  000132c0    00000076     MISC.obj (.text:MSC_ABS)
+                  00013336    00000076     rts430x_lc_ld_eabi.lib : fltuld.obj (.text:__mspabi_fltuld)
+                  000133ac    00000072                            : xdunscal.obj (.text:_Dunscale)
+                  0001341e    00000068                            : copy_decompress_rle.obj (.text:__TI_decompress_rle_core)
+                  00013486    00000066                            : fixdli.obj (.text:__mspabi_fixdli)
+                  000134ec    00000064     main.obj (.text:main)
+                  00013550    00000062     UART.obj (.text:UART_PrintBanner)
+                  000135b2    0000005c     SPI.obj (.text:Init_SPI)
+                  0001360e    00000058     ADC.obj (.text:ADC_Sample)
+                  00013666    00000058     SYSTEM.obj (.text:SYS_ConfigureOscillator)
+                  000136be    00000058     rts430x_lc_ld_eabi.lib : div32u.obj (.text)
+                  00013716    0000004e     UART.obj (.text:Init_UART)
+                  00013764    0000004c     ADC.obj (.text:ADC_Module)
+                  000137b0    0000004c     MISC.obj (.text:MSC_Round)
+                  000137fc    00000048     LED.obj (.text:LED_DisplayShow)
+                  00013844    00000046     TLC5940.obj (.text:TLC_SetLEDs)
+                  0001388a    00000042     MISC.obj (.text:MSC_DelayUS)
+                  000138cc    00000042     SPI.obj (.text:SPI_ModuleInterruptsB)
+                  0001390e    00000040     PROCESSING.obj (.text:PRO_AddToProcessBuffer)
+                  0001394e    0000003e     SPI.obj (.text:SPI_ModuleB)
+                  0001398c    0000003e     rts430x_lc_ld_eabi.lib : asr32.obj (.text:l_asr_const)
+                  000139ca    0000003e                            : lsl32.obj (.text:l_lsl_const)
+                  00013a08    0000003e                            : lsr32.obj (.text:l_lsr_const)
+                  00013a46    00000038     TLC5940.obj (.text:Init_TLC5940)
+                  00013a7e    00000038     rts430x_lc_ld_eabi.lib : signal.obj (.text:signal)
+                  00013ab6    00000036     BUTTON.obj (.text:Init_Buttons)
+                  00013aec    00000036     TIMERS.obj (.text:Init_TimerA0)
+                  00013b22    00000036     TIMERS.obj (.text:Init_TimerA1)
+                  00013b58    00000036     TIMERS.obj (.text:Init_TimerA2)
+                  00013b8e    00000036     MISC.obj (.text:MSC_CleanBuffer)
+                  00013bc4    00000036     rts430x_lc_ld_eabi.lib : xferaise.obj (.text:_Feraise)
+                  00013bfa    00000034                            : feraiseexcept.obj (.text:feraiseexcept)
+                  00013c2e    00000032     BUTTON.obj (.text:BUT_Button1Interrupt)
+                  00013c60    00000032     LED.obj (.text:LED_Red)
+                  00013c92    00000032     TLC5940.obj (.text:TLC_XERRInterrupt)
+                  00013cc4    00000032     UART.obj (.text:UART_ReceiveInterrupt)
+                  00013cf6    00000032     UART.obj (.text:UART_TransmitInterrupt)
+                  00013d28    00000032     rts430x_lc_ld_eabi.lib : subd.obj (.text:__mspabi_subd)
+                  00013d5a    00000032                            : raise.obj (.text:raise)
+                  00013d8c    00000030     TLC5940.obj (.text:TLC_GSCLK)
+                  00013dbc    0000002e     MISC.obj (.text:MSC_ABSL)
+                  00013dea    0000002e     rts430x_lc_ld_eabi.lib : negd.obj (.text:__mspabi_negd)
+                  00013e18    0000002c     ADC.obj (.text:ADC_EnableConversion)
+                  00013e44    0000002c     ADC.obj (.text:ADC_Interrupt)
+                  00013e70    0000002c     BUTTON.obj (.text:BUT_Button2Interrupt)
+                  00013e9c    0000002c     LED.obj (.text:LED_Green)
+                  00013ec8    0000002c     TIMERS.obj (.text:TMR_InterruptTimerA0)
+                  00013ef4    0000002c     TIMERS.obj (.text:TMR_InterruptTimerA1)
+                  00013f20    0000002c     TIMERS.obj (.text:TMR_InterruptTimerA2)
+                  00013f4c    0000002c     UART.obj (.text:UART_Module)
+                  00013f78    0000002c     UART.obj (.text:UART_SendChar)
+                  00013fa4    0000002c     UART.obj (.text:UART_Sleep)
+                  00013fd0    0000002c     rts430x_lc_ld_eabi.lib : div16s.obj (.text)
+                  00013ffc    00000004                            : pre_init.obj (.text:_system_pre_init)
 
 
 LINKER GENERATED COPY TABLES
 
-__TI_cinit_table @ 0000492e records: 2, size/record: 8, table size: 16
-	.data: load addr=00004902, load size=0000001a bytes, run addr=00002028, run size=00000030 bytes, compression=rle
-	.bss: load addr=00004928, load size=00000006 bytes, run addr=00001c00, run size=00000428 bytes, compression=zero_init
+__TI_cinit_table @ 00006878 records: 2, size/record: 8, table size: 16
+	.data: load addr=00006810, load size=00000055 bytes, run addr=0000202c, run size=00000174 bytes, compression=rle
+	.bss: load addr=00006872, load size=00000006 bytes, run addr=00001c00, run size=0000042c bytes, compression=zero_init
 
 
 LINKER GENERATED HANDLER TABLE
 
-__TI_handler_table @ 0000491c records: 3, size/record: 4, table size: 12
+__TI_handler_table @ 00006866 records: 3, size/record: 4, table size: 12
 	index: 0, handler: __TI_zero_init
 	index: 1, handler: __TI_decompress_rle24
 	index: 2, handler: __TI_decompress_none
@@ -373,7 +408,7 @@ GLOBAL SYMBOLS: SORTED ALPHABETICALLY BY Name
 
 address   name                      
 -------   ----                      
-00002028  ACLK_Freq                 
+0000215c  ACLK_Freq                 
 00000800  ADC12CTL0                 
 00000801  ADC12CTL0_H               
 00000800  ADC12CTL0_L               
@@ -605,17 +640,19 @@ address   name
 00000872  ADC12MEM9                 
 00000873  ADC12MEM9_H               
 00000872  ADC12MEM9_L               
-00004604  ADC12_ISR                 
+000061ee  ADC12_ISR                 
 00002020  ADC_Counts                
-00012c9a  ADC_EnableConversion      
-00012cc6  ADC_Interrupt             
-00002026  ADC_MIDPOINT_OFFSET       
-00012756  ADC_Module                
-00012f42  ADC_Read                  
-00002053  ADC_Ready                 
-00012660  ADC_Sample                
-00012fc8  ADC_SampleWait            
-00013104  ADC_SetMidpointOffset     
+00013e18  ADC_EnableConversion      
+00013e44  ADC_Interrupt             
+00002026  ADC_Midpoint_Offset       
+00013764  ADC_Module                
+0000632e  ADC_Read                  
+00002198  ADC_Ready                 
+00006486  ADC_ReferenceBusy         
+0001360e  ADC_Sample                
+000063b2  ADC_SampleWait            
+00006394  ADC_SetMidpointOffset     
+00012a3a  ADC_SetReference          
 000009c0  AESACTL0                  
 000009c1  AESACTL0_H                
 000009c0  AESACTL0_L                
@@ -642,10 +679,10 @@ address   name
 000009ce  AESAXIN_L                 
 000004be  BCD2BIN                   
 000004bc  BIN2BCD                   
-00012b3e  BUT_Button1Interrupt      
-00012cf2  BUT_Button2Interrupt      
-00002052  BreakReceived             
-0001314e  C$$EXIT                   
+00013c2e  BUT_Button1Interrupt      
+00013e70  BUT_Button2Interrupt      
+0000218e  BreakReceived             
+00006560  C$$EXIT                   
 0000043e  CAPTIO0CTL                
 0000043f  CAPTIO0CTL_H              
 0000043e  CAPTIO0CTL_L              
@@ -703,8 +740,8 @@ address   name
 0000016c  CSCTL6                    
 0000016d  CSCTL6_H                  
 0000016c  CSCTL6_L                  
-00002054  CurrentChannel            
-00002034  DCOCLK_Freq               
+00002199  CurrentChannel            
+00002168  DCOCLK_Freq               
 00000510  DMA0CTL                   
 00000511  DMA0CTL_H                 
 00000510  DMA0CTL_L                 
@@ -753,36 +790,38 @@ address   name
 0000050e  DMAIV                     
 0000050f  DMAIV_H                   
 0000050e  DMAIV_L                   
+00004400  DataBuffer                
 00000140  FRCTL0                    
 00000141  FRCTL0_H                  
 00000140  FRCTL0_L                  
-00002057  FadeDirection             
+0000219b  FadeDirection             
 00000144  GCCTL0                    
 00000145  GCCTL0_H                  
 00000144  GCCTL0_L                  
 00000146  GCCTL1                    
 00000147  GCCTL1_H                  
 00000146  GCCTL1_L                  
-00002048  HFXTCLK_Freq              
-00011d7a  Init_ADC                  
-0001219c  Init_App                  
-00012a30  Init_Buttons              
-000125ac  Init_SPI                  
-00012fa8  Init_System               
-000129f8  Init_TLC5940              
-00012a66  Init_TimerA0              
-00012a9c  Init_TimerA1              
-00012ad2  Init_TimerA2              
-000130cc  Init_Timers               
-00012708  Init_UART                 
-000127ee  LED_DisplayShow           
-00012d1e  LED_Green                 
-0001312c  LED_GreenToggle           
-00012b70  LED_Red                   
-0001311c  LED_RedToggle             
+0000217c  HFXTCLK_Freq              
+00012f98  Init_ADC                  
+00012f02  Init_App                  
+00013ab6  Init_Buttons              
+0000653c  Init_Processing           
+000135b2  Init_SPI                  
+0000626c  Init_System               
+00013a46  Init_TLC5940              
+00013aec  Init_TimerA0              
+00013b22  Init_TimerA1              
+00013b58  Init_TimerA2              
+000064c6  Init_Timers               
+00013716  Init_UART                 
+000137fc  LED_DisplayShow           
+00013e9c  LED_Green                 
+00006542  LED_GreenToggle           
+00013c60  LED_Red                   
+0000652c  LED_RedToggle             
 00002000  LEDs                      
-00002044  LFMODCLK_Freq             
-0000203c  LFXTCLK_Freq              
+00002178  LFMODCLK_Freq             
+00002170  LFXTCLK_Freq              
 000004c4  MAC                       
 000004da  MAC32H                    
 000004db  MAC32H_H                  
@@ -801,8 +840,8 @@ address   name
 000004c6  MACS_L                    
 000004c5  MAC_H                     
 000004c4  MAC_L                     
-00002030  MCLK_Freq                 
-00002040  MODCLK_Freq               
+00002164  MCLK_Freq                 
+00002174  MODCLK_Freq               
 000005a0  MPUCTL0                   
 000005a1  MPUCTL0_H                 
 000005a0  MPUCTL0_L                 
@@ -848,10 +887,11 @@ address   name
 000004c2  MPYS_L                    
 000004c1  MPY_H                     
 000004c0  MPY_L                     
-00012390  MSC_ABS                   
-00012b08  MSC_CleanBuffer           
-0001287c  MSC_DelayUS               
-000127a2  MSC_Round                 
+000132c0  MSC_ABS                   
+00013dbc  MSC_ABSL                  
+00013b8e  MSC_CleanBuffer           
+0001388a  MSC_DelayUS               
+000137b0  MSC_Round                 
 000004c8  OP2                       
 000004e2  OP2H                      
 000004e3  OP2H_H                    
@@ -955,8 +995,12 @@ address   name
 0000012a  PMMIFG                    
 0000012b  PMMIFG_H                  
 0000012a  PMMIFG_L                  
-00004550  Port1_ISR                 
-00004514  Port4_ISR                 
+0001390e  PRO_AddToProcessBuffer    
+000064d4  PRO_ClearProcessBuffer    
+00010000  PRO_ProcessData           
+000060d2  Port1_ISR                 
+00006156  Port4_ISR                 
+0000219c  ProcessingWindow          
 000001b0  REFCTL0                   
 000001b1  REFCTL0_H                 
 000001b0  REFCTL0_L                 
@@ -1013,7 +1057,7 @@ address   name
 000004b7  RTCYEAR_H                 
 000004b6  RTCYEAR_L                 
 00001c00  RX_Buffer                 
-0000204c  RX_Buffer_Place           
+00002188  RX_Buffer_Place           
 00000100  SFRIE1                    
 00000101  SFRIE1_H                  
 00000100  SFRIE1_L                  
@@ -1023,13 +1067,13 @@ address   name
 00000104  SFRRPCR                   
 00000105  SFRRPCR_H                 
 00000104  SFRRPCR_L                 
-0000202c  SMCLK_Freq                
-00012f64  SPI_BusyB                 
-00012900  SPI_ModuleB               
-000128be  SPI_ModuleInterruptsB     
-00002056  SPI_Receive_Available     
-00011e50  SPI_SetParametersB        
-00011fd2  SPI_WriteB                
+00002160  SMCLK_Freq                
+00006350  SPI_BusyB                 
+0001394e  SPI_ModuleB               
+000138cc  SPI_ModuleInterruptsB     
+0000218f  SPI_Receive_Available     
+00012cdc  SPI_SetParametersB        
+00012e5e  SPI_WriteB                
 000004ce  SUMEXT                    
 000004cf  SUMEXT_H                  
 000004ce  SUMEXT_L                  
@@ -1060,9 +1104,9 @@ address   name
 0000019a  SYSUNIV                   
 0000019b  SYSUNIV_H                 
 0000019a  SYSUNIV_L                 
-00010000  SYS_CalculateClocks       
-00012608  SYS_ConfigureOscillator   
-00013124  SYS_Unlock                
+000109e4  SYS_CalculateClocks       
+00013666  SYS_ConfigureOscillator   
+00006534  SYS_Unlock                
 00000352  TA0CCR0                   
 00000354  TA0CCR1                   
 00000356  TA0CCR2                   
@@ -1117,47 +1161,47 @@ address   name
 000003e0  TB0EX0                    
 000003ee  TB0IV                     
 000003d0  TB0R                      
-000045b8  TIMER0_A0_ISR             
-0000462e  TIMER0_A1_ISR             
-00004588  TIMER1_A0_ISR             
-0000463a  TIMER1_A1_ISR             
-00012fe4  TLC_Blank                 
-00012c6a  TLC_GSCLK                 
-00012836  TLC_SetLEDs               
-00011948  TLC_SetLEDsLinear         
-00011bc8  TLC_UpdateLEDs            
-00012ba2  TLC_XERRInterrupt         
-00012ffe  TLC_XLAT                  
-00012d4a  TMR_InterruptTimerA0      
-00012d76  TMR_InterruptTimerA1      
-00012da2  TMR_InterruptTimerA2      
-00012222  TMR_ModeTimerA0           
-0001229c  TMR_ModeTimerA1           
-00012316  TMR_ModeTimerA2           
-00013132  TMR_ResetTimerA0          
-00013138  TMR_ResetTimerA1          
-0001313e  TMR_ResetTimerA2          
-000130da  TMR_SetTimerA0            
-000130e8  TMR_SetTimerA1            
-000130f6  TMR_SetTimerA2            
+000061b0  TIMER0_A0_ISR             
+00006218  TIMER0_A1_ISR             
+0000618e  TIMER1_A0_ISR             
+00006224  TIMER1_A1_ISR             
+000063ce  TLC_Blank                 
+00013d8c  TLC_GSCLK                 
+00013844  TLC_SetLEDs               
+000126ba  TLC_SetLEDsLinear         
+00012b2a  TLC_UpdateLEDs            
+00013c92  TLC_XERRInterrupt         
+000063e8  TLC_XLAT                  
+00013ec8  TMR_InterruptTimerA0      
+00013ef4  TMR_InterruptTimerA1      
+00013f20  TMR_InterruptTimerA2      
+00013152  TMR_ModeTimerA0           
+000131cc  TMR_ModeTimerA1           
+00013246  TMR_ModeTimerA2           
+00006548  TMR_ResetTimerA0          
+0000654e  TMR_ResetTimerA1          
+00006554  TMR_ResetTimerA2          
+000064e2  TMR_SetTimerA0            
+000064f0  TMR_SetTimerA1            
+000064fe  TMR_SetTimerA2            
 00001e00  TX_Buffer                 
-00002050  TX_Buffer_Place_Add       
-0000204e  TX_Buffer_Place_Remove    
-00004658  Table_UCBRSx              
-00004620  Timer2_A0_ISR             
-00004646  Timer2_A1_ISR             
-0001308a  UART_CleanBufferRX        
-00013032  UART_CleanBufferTX        
-00011acc  UART_LookupUCBRSx         
-00012dce  UART_Module               
-000117a8  UART_Parameters           
-0001254a  UART_PrintBanner          
-00012bd4  UART_ReceiveInterrupt     
-00012dfa  UART_SendChar             
-00012ef8  UART_SendString           
-00013018  UART_SendStringCRLN       
-00012e26  UART_Sleep                
-00012c06  UART_TransmitInterrupt    
+0000218c  TX_Buffer_Place_Add       
+0000218a  TX_Buffer_Place_Remove    
+00006566  Table_UCBRSx              
+0000620a  Timer2_A0_ISR             
+00006230  Timer2_A1_ISR             
+00006474  UART_CleanBufferRX        
+0000641c  UART_CleanBufferTX        
+0001293e  UART_LookupUCBRSx         
+00013f4c  UART_Module               
+0001237c  UART_Parameters           
+00013550  UART_PrintBanner          
+00013cc4  UART_ReceiveInterrupt     
+00013f78  UART_SendChar             
+000062e4  UART_SendString           
+00006402  UART_SendStringCRLN       
+00013fa4  UART_Sleep                
+00013cf6  UART_TransmitInterrupt    
 000005d0  UCA0ABCTL                 
 000005c6  UCA0BRW                   
 000005c7  UCA0BRW_H                 
@@ -1267,27 +1311,43 @@ address   name
 0000064e  UCB0TXBUF                 
 0000064f  UCB0TXBUF_H               
 0000064e  UCB0TXBUF_L               
-00004400  USCI_A1_ISR               
-000044d2  USCI_B0_ISR               
-00002038  VLOCLK_Freq               
-00002055  VREF                      
+00006000  USCI_A1_ISR               
+00006114  USCI_B0_ISR               
+0000216c  VLOCLK_Freq               
+0000219a  VREF                      
 0000015c  WDTCTL                    
 0000015d  WDTCTL_H                  
 0000015c  WDTCTL_L                  
+000020dc  _Denorm                   
+0001283e  _Dnorm                    
+0001251c  _Dscale                   
+000133ac  _Dunscale                 
+000020ec  _Eps                      
+0000219e  _Errno                    
+00002180  _Fenv                     
+00013bc4  _Feraise                  
+000020fc  _Hugeval                  
+0000210c  _Inf                      
+0000211c  _Nan                      
+0000213c  _Rteps                    
+0000212c  _Snan                     
+00002184  _Tls_setup__Fenv          
+0000214c  _Xbig                     
+00002154  _Zero                     
 00002400  __STACK_END               
 000000a0  __STACK_SIZE              
-0000492e  __TI_CINIT_Base           
-0000493e  __TI_CINIT_Limit          
-0000491c  __TI_Handler_Table_Base   
-00004928  __TI_Handler_Table_Limit  
+00006878  __TI_CINIT_Base           
+00006888  __TI_CINIT_Limit          
+00006866  __TI_Handler_Table_Base   
+00006872  __TI_Handler_Table_Limit  
 UNDEFED   __TI_INITARRAY_Base       
 UNDEFED   __TI_INITARRAY_Limit      
-00004652  __TI_ISR_TRAP             
-00013048  __TI_decompress_none      
-00013144  __TI_decompress_rle24     
-00011334  __TI_frcaddd              
-000106a4  __TI_frcdivd              
-00010af6  __TI_frcmpyd              
+0000623c  __TI_ISR_TRAP             
+00006432  __TI_decompress_none      
+0000655a  __TI_decompress_rle24     
+00011d18  __TI_frcaddd              
+00011088  __TI_frcdivd              
+000114da  __TI_frcmpyd              
 0000ffcc  __TI_int30                
 0000ffce  __TI_int31                
 0000ffd0  __TI_int32                
@@ -1313,92 +1373,104 @@ UNDEFED   __TI_INITARRAY_Limit
 0000fff8  __TI_int52                
 0000fffa  __TI_int53                
 0000fffc  __TI_int54                
-00011f20  __TI_renormd              
-00012f1e  __TI_zero_init            
+00012dac  __TI_renormd              
+0000630a  __TI_zero_init            
 ffffffff  __binit__                 
 ffffffff  __c_args__                
 00000001  __mpu_enable              
-00012ea8  __mpu_init                
-00010dda  __mspabi_addd             
-00011ca2  __mspabi_cmpd             
-00011586  __mspabi_divd             
-00012e52  __mspabi_divi             
-0001305e  __mspabi_divu             
-00012ed0  __mspabi_fixdi            
-000124e4  __mspabi_fixdli           
-00013110  __mspabi_fltid            
-00012076  __mspabi_fltlid           
-00012406  __mspabi_fltuld           
-000110b2  __mspabi_mpyd             
-00013074  __mspabi_mpyi_f5hw        
-00012f86  __mspabi_mpyl_f5hw        
-00012e52  __mspabi_remi             
-0001305e  __mspabi_remu             
-000130ac  __mspabi_slll             
-000129b4  __mspabi_slll_1           
-00012990  __mspabi_slll_10          
-0001298c  __mspabi_slll_11          
-00012988  __mspabi_slll_12          
-00012984  __mspabi_slll_13          
-00012980  __mspabi_slll_14          
-0001297c  __mspabi_slll_15          
-000129b0  __mspabi_slll_2           
-000129ac  __mspabi_slll_3           
-000129a8  __mspabi_slll_4           
-000129a4  __mspabi_slll_5           
-000129a0  __mspabi_slll_6           
-0001299c  __mspabi_slll_7           
-00012998  __mspabi_slll_8           
-00012994  __mspabi_slll_9           
-0001309c  __mspabi_sral             
-00012976  __mspabi_sral_1           
-00012952  __mspabi_sral_10          
-0001294e  __mspabi_sral_11          
-0001294a  __mspabi_sral_12          
-00012946  __mspabi_sral_13          
-00012942  __mspabi_sral_14          
-0001293e  __mspabi_sral_15          
-00012972  __mspabi_sral_2           
-0001296e  __mspabi_sral_3           
-0001296a  __mspabi_sral_4           
-00012966  __mspabi_sral_5           
-00012962  __mspabi_sral_6           
-0001295e  __mspabi_sral_7           
-0001295a  __mspabi_sral_8           
-00012956  __mspabi_sral_9           
-000130bc  __mspabi_srll             
-000129f2  __mspabi_srll_1           
-000129ce  __mspabi_srll_10          
-000129ca  __mspabi_srll_11          
-000129c6  __mspabi_srll_12          
-000129c2  __mspabi_srll_13          
-000129be  __mspabi_srll_14          
-000129ba  __mspabi_srll_15          
-000129ee  __mspabi_srll_2           
-000129ea  __mspabi_srll_3           
-000129e6  __mspabi_srll_4           
-000129e2  __mspabi_srll_5           
-000129de  __mspabi_srll_6           
-000129da  __mspabi_srll_7           
-000129d6  __mspabi_srll_8           
-000129d2  __mspabi_srll_9           
-00012c38  __mspabi_subd             
-0001210a  _auto_init_hold_wdt       
-000045e6  _c_int00_noargs_noexit_mpu
+00006294  __mpu_init                
+000117be  __mspabi_addd             
+00012c04  __mspabi_cmpd             
+00011f6a  __mspabi_divd             
+00013fd0  __mspabi_divi             
+00006448  __mspabi_divu             
+000136be  __mspabi_divul            
+000062bc  __mspabi_fixdi            
+00013486  __mspabi_fixdli           
+0000650c  __mspabi_fltid            
+0001302c  __mspabi_fltlid           
+00013336  __mspabi_fltuld           
+00011a96  __mspabi_mpyd             
+0000645e  __mspabi_mpyi_f5hw        
+00006372  __mspabi_mpyl_f5hw        
+00013dea  __mspabi_negd             
+00013fd0  __mspabi_remi             
+00006448  __mspabi_remu             
+000136be  __mspabi_remul            
+00006518  __mspabi_slli             
+000064a6  __mspabi_slll             
+00013a02  __mspabi_slll_1           
+000139de  __mspabi_slll_10          
+000139da  __mspabi_slll_11          
+000139d6  __mspabi_slll_12          
+000139d2  __mspabi_slll_13          
+000139ce  __mspabi_slll_14          
+000139ca  __mspabi_slll_15          
+000139fe  __mspabi_slll_2           
+000139fa  __mspabi_slll_3           
+000139f6  __mspabi_slll_4           
+000139f2  __mspabi_slll_5           
+000139ee  __mspabi_slll_6           
+000139ea  __mspabi_slll_7           
+000139e6  __mspabi_slll_8           
+000139e2  __mspabi_slll_9           
+00006496  __mspabi_sral             
+000139c4  __mspabi_sral_1           
+000139a0  __mspabi_sral_10          
+0001399c  __mspabi_sral_11          
+00013998  __mspabi_sral_12          
+00013994  __mspabi_sral_13          
+00013990  __mspabi_sral_14          
+0001398c  __mspabi_sral_15          
+000139c0  __mspabi_sral_2           
+000139bc  __mspabi_sral_3           
+000139b8  __mspabi_sral_4           
+000139b4  __mspabi_sral_5           
+000139b0  __mspabi_sral_6           
+000139ac  __mspabi_sral_7           
+000139a8  __mspabi_sral_8           
+000139a4  __mspabi_sral_9           
+00006522  __mspabi_srli             
+000064b6  __mspabi_srll             
+00013a40  __mspabi_srll_1           
+00013a1c  __mspabi_srll_10          
+00013a18  __mspabi_srll_11          
+00013a14  __mspabi_srll_12          
+00013a10  __mspabi_srll_13          
+00013a0c  __mspabi_srll_14          
+00013a08  __mspabi_srll_15          
+00013a3c  __mspabi_srll_2           
+00013a38  __mspabi_srll_3           
+00013a34  __mspabi_srll_4           
+00013a30  __mspabi_srll_5           
+00013a2c  __mspabi_srll_6           
+00013a28  __mspabi_srll_7           
+00013a24  __mspabi_srll_8           
+00013a20  __mspabi_srll_9           
+00013d28  __mspabi_subd             
+000130c0  _auto_init_hold_wdt       
+000061d0  _c_int00_noargs_noexit_mpu
+00002190  _lock                     
+00006564  _nop                      
 0000fffe  _reset_vector             
 00002360  _stack                    
-0001314a  _system_pre_init          
-0001314e  abort                     
+00013ffc  _system_pre_init          
+00002194  _unlock                   
+00006560  abort                     
 ffffffff  binit                     
-00004400  fram_ipe_end              
-00004400  fram_ipe_start            
-00004400  fram_rx_start             
-000126b4  main                      
-00012e7e  memcpy                    
+00013bfa  feraiseexcept             
+00006000  fram_ipe_end              
+00006000  fram_ipe_start            
+00006000  fram_rx_start             
+000134ec  main                      
+00006242  memcpy                    
 0000a501  mpu_ctl0_value            
 00001513  mpu_sam_value             
-00000440  mpu_segment_border1       
-00000440  mpu_segment_border2       
+00000600  mpu_segment_border1       
+00000600  mpu_segment_border2       
+00013d5a  raise                     
+00013a7e  signal                    
+0001218c  sqrt                      
 
 
 GLOBAL SYMBOLS: SORTED BY Symbol Address 
@@ -1635,8 +1707,6 @@ address   name
 0000043e  CAPTIO0CTL_L              
 0000043f  CAPTIO0CTL_H              
 00000440  TA3CTL                    
-00000440  mpu_segment_border1       
-00000440  mpu_segment_border2       
 00000442  TA3CCTL0                  
 00000444  TA3CCTL1                  
 00000450  TA3R                      
@@ -1884,6 +1954,8 @@ address   name
 000005fc  UCA1IFG_L                 
 000005fd  UCA1IFG_H                 
 000005fe  UCA1IV                    
+00000600  mpu_segment_border1       
+00000600  mpu_segment_border2       
 00000640  UCB0CTLW0                 
 00000640  UCB0CTLW0_L               
 00000641  UCB0CTLW0_H               
@@ -2211,48 +2283,107 @@ address   name
 00001e00  TX_Buffer                 
 00002000  LEDs                      
 00002020  ADC_Counts                
-00002026  ADC_MIDPOINT_OFFSET       
-00002028  ACLK_Freq                 
-0000202c  SMCLK_Freq                
-00002030  MCLK_Freq                 
-00002034  DCOCLK_Freq               
-00002038  VLOCLK_Freq               
-0000203c  LFXTCLK_Freq              
-00002040  MODCLK_Freq               
-00002044  LFMODCLK_Freq             
-00002048  HFXTCLK_Freq              
-0000204c  RX_Buffer_Place           
-0000204e  TX_Buffer_Place_Remove    
-00002050  TX_Buffer_Place_Add       
-00002052  BreakReceived             
-00002053  ADC_Ready                 
-00002054  CurrentChannel            
-00002055  VREF                      
-00002056  SPI_Receive_Available     
-00002057  FadeDirection             
+00002026  ADC_Midpoint_Offset       
+000020dc  _Denorm                   
+000020ec  _Eps                      
+000020fc  _Hugeval                  
+0000210c  _Inf                      
+0000211c  _Nan                      
+0000212c  _Snan                     
+0000213c  _Rteps                    
+0000214c  _Xbig                     
+00002154  _Zero                     
+0000215c  ACLK_Freq                 
+00002160  SMCLK_Freq                
+00002164  MCLK_Freq                 
+00002168  DCOCLK_Freq               
+0000216c  VLOCLK_Freq               
+00002170  LFXTCLK_Freq              
+00002174  MODCLK_Freq               
+00002178  LFMODCLK_Freq             
+0000217c  HFXTCLK_Freq              
+00002180  _Fenv                     
+00002184  _Tls_setup__Fenv          
+00002188  RX_Buffer_Place           
+0000218a  TX_Buffer_Place_Remove    
+0000218c  TX_Buffer_Place_Add       
+0000218e  BreakReceived             
+0000218f  SPI_Receive_Available     
+00002190  _lock                     
+00002194  _unlock                   
+00002198  ADC_Ready                 
+00002199  CurrentChannel            
+0000219a  VREF                      
+0000219b  FadeDirection             
+0000219c  ProcessingWindow          
+0000219e  _Errno                    
 00002360  _stack                    
 00002400  __STACK_END               
-00004400  USCI_A1_ISR               
-00004400  fram_ipe_end              
-00004400  fram_ipe_start            
-00004400  fram_rx_start             
-000044d2  USCI_B0_ISR               
-00004514  Port4_ISR                 
-00004550  Port1_ISR                 
-00004588  TIMER1_A0_ISR             
-000045b8  TIMER0_A0_ISR             
-000045e6  _c_int00_noargs_noexit_mpu
-00004604  ADC12_ISR                 
-00004620  Timer2_A0_ISR             
-0000462e  TIMER0_A1_ISR             
-0000463a  TIMER1_A1_ISR             
-00004646  Timer2_A1_ISR             
-00004652  __TI_ISR_TRAP             
-00004658  Table_UCBRSx              
-0000491c  __TI_Handler_Table_Base   
-00004928  __TI_Handler_Table_Limit  
-0000492e  __TI_CINIT_Base           
-0000493e  __TI_CINIT_Limit          
+00004400  DataBuffer                
+00006000  USCI_A1_ISR               
+00006000  fram_ipe_end              
+00006000  fram_ipe_start            
+00006000  fram_rx_start             
+000060d2  Port1_ISR                 
+00006114  USCI_B0_ISR               
+00006156  Port4_ISR                 
+0000618e  TIMER1_A0_ISR             
+000061b0  TIMER0_A0_ISR             
+000061d0  _c_int00_noargs_noexit_mpu
+000061ee  ADC12_ISR                 
+0000620a  Timer2_A0_ISR             
+00006218  TIMER0_A1_ISR             
+00006224  TIMER1_A1_ISR             
+00006230  Timer2_A1_ISR             
+0000623c  __TI_ISR_TRAP             
+00006242  memcpy                    
+0000626c  Init_System               
+00006294  __mpu_init                
+000062bc  __mspabi_fixdi            
+000062e4  UART_SendString           
+0000630a  __TI_zero_init            
+0000632e  ADC_Read                  
+00006350  SPI_BusyB                 
+00006372  __mspabi_mpyl_f5hw        
+00006394  ADC_SetMidpointOffset     
+000063b2  ADC_SampleWait            
+000063ce  TLC_Blank                 
+000063e8  TLC_XLAT                  
+00006402  UART_SendStringCRLN       
+0000641c  UART_CleanBufferTX        
+00006432  __TI_decompress_none      
+00006448  __mspabi_divu             
+00006448  __mspabi_remu             
+0000645e  __mspabi_mpyi_f5hw        
+00006474  UART_CleanBufferRX        
+00006486  ADC_ReferenceBusy         
+00006496  __mspabi_sral             
+000064a6  __mspabi_slll             
+000064b6  __mspabi_srll             
+000064c6  Init_Timers               
+000064d4  PRO_ClearProcessBuffer    
+000064e2  TMR_SetTimerA0            
+000064f0  TMR_SetTimerA1            
+000064fe  TMR_SetTimerA2            
+0000650c  __mspabi_fltid            
+00006518  __mspabi_slli             
+00006522  __mspabi_srli             
+0000652c  LED_RedToggle             
+00006534  SYS_Unlock                
+0000653c  Init_Processing           
+00006542  LED_GreenToggle           
+00006548  TMR_ResetTimerA0          
+0000654e  TMR_ResetTimerA1          
+00006554  TMR_ResetTimerA2          
+0000655a  __TI_decompress_rle24     
+00006560  C$$EXIT                   
+00006560  abort                     
+00006564  _nop                      
+00006566  Table_UCBRSx              
+00006866  __TI_Handler_Table_Base   
+00006872  __TI_Handler_Table_Limit  
+00006878  __TI_CINIT_Base           
+00006888  __TI_CINIT_Limit          
 0000a501  mpu_ctl0_value            
 0000ffcc  __TI_int30                
 0000ffce  __TI_int31                
@@ -2280,156 +2411,134 @@ address   name
 0000fffa  __TI_int53                
 0000fffc  __TI_int54                
 0000fffe  _reset_vector             
-00010000  SYS_CalculateClocks       
-000106a4  __TI_frcdivd              
-00010af6  __TI_frcmpyd              
-00010dda  __mspabi_addd             
-000110b2  __mspabi_mpyd             
-00011334  __TI_frcaddd              
-00011586  __mspabi_divd             
-000117a8  UART_Parameters           
-00011948  TLC_SetLEDsLinear         
-00011acc  UART_LookupUCBRSx         
-00011bc8  TLC_UpdateLEDs            
-00011ca2  __mspabi_cmpd             
-00011d7a  Init_ADC                  
-00011e50  SPI_SetParametersB        
-00011f20  __TI_renormd              
-00011fd2  SPI_WriteB                
-00012076  __mspabi_fltlid           
-0001210a  _auto_init_hold_wdt       
-0001219c  Init_App                  
-00012222  TMR_ModeTimerA0           
-0001229c  TMR_ModeTimerA1           
-00012316  TMR_ModeTimerA2           
-00012390  MSC_ABS                   
-00012406  __mspabi_fltuld           
-000124e4  __mspabi_fixdli           
-0001254a  UART_PrintBanner          
-000125ac  Init_SPI                  
-00012608  SYS_ConfigureOscillator   
-00012660  ADC_Sample                
-000126b4  main                      
-00012708  Init_UART                 
-00012756  ADC_Module                
-000127a2  MSC_Round                 
-000127ee  LED_DisplayShow           
-00012836  TLC_SetLEDs               
-0001287c  MSC_DelayUS               
-000128be  SPI_ModuleInterruptsB     
-00012900  SPI_ModuleB               
-0001293e  __mspabi_sral_15          
-00012942  __mspabi_sral_14          
-00012946  __mspabi_sral_13          
-0001294a  __mspabi_sral_12          
-0001294e  __mspabi_sral_11          
-00012952  __mspabi_sral_10          
-00012956  __mspabi_sral_9           
-0001295a  __mspabi_sral_8           
-0001295e  __mspabi_sral_7           
-00012962  __mspabi_sral_6           
-00012966  __mspabi_sral_5           
-0001296a  __mspabi_sral_4           
-0001296e  __mspabi_sral_3           
-00012972  __mspabi_sral_2           
-00012976  __mspabi_sral_1           
-0001297c  __mspabi_slll_15          
-00012980  __mspabi_slll_14          
-00012984  __mspabi_slll_13          
-00012988  __mspabi_slll_12          
-0001298c  __mspabi_slll_11          
-00012990  __mspabi_slll_10          
-00012994  __mspabi_slll_9           
-00012998  __mspabi_slll_8           
-0001299c  __mspabi_slll_7           
-000129a0  __mspabi_slll_6           
-000129a4  __mspabi_slll_5           
-000129a8  __mspabi_slll_4           
-000129ac  __mspabi_slll_3           
-000129b0  __mspabi_slll_2           
-000129b4  __mspabi_slll_1           
-000129ba  __mspabi_srll_15          
-000129be  __mspabi_srll_14          
-000129c2  __mspabi_srll_13          
-000129c6  __mspabi_srll_12          
-000129ca  __mspabi_srll_11          
-000129ce  __mspabi_srll_10          
-000129d2  __mspabi_srll_9           
-000129d6  __mspabi_srll_8           
-000129da  __mspabi_srll_7           
-000129de  __mspabi_srll_6           
-000129e2  __mspabi_srll_5           
-000129e6  __mspabi_srll_4           
-000129ea  __mspabi_srll_3           
-000129ee  __mspabi_srll_2           
-000129f2  __mspabi_srll_1           
-000129f8  Init_TLC5940              
-00012a30  Init_Buttons              
-00012a66  Init_TimerA0              
-00012a9c  Init_TimerA1              
-00012ad2  Init_TimerA2              
-00012b08  MSC_CleanBuffer           
-00012b3e  BUT_Button1Interrupt      
-00012b70  LED_Red                   
-00012ba2  TLC_XERRInterrupt         
-00012bd4  UART_ReceiveInterrupt     
-00012c06  UART_TransmitInterrupt    
-00012c38  __mspabi_subd             
-00012c6a  TLC_GSCLK                 
-00012c9a  ADC_EnableConversion      
-00012cc6  ADC_Interrupt             
-00012cf2  BUT_Button2Interrupt      
-00012d1e  LED_Green                 
-00012d4a  TMR_InterruptTimerA0      
-00012d76  TMR_InterruptTimerA1      
-00012da2  TMR_InterruptTimerA2      
-00012dce  UART_Module               
-00012dfa  UART_SendChar             
-00012e26  UART_Sleep                
-00012e52  __mspabi_divi             
-00012e52  __mspabi_remi             
-00012e7e  memcpy                    
-00012ea8  __mpu_init                
-00012ed0  __mspabi_fixdi            
-00012ef8  UART_SendString           
-00012f1e  __TI_zero_init            
-00012f42  ADC_Read                  
-00012f64  SPI_BusyB                 
-00012f86  __mspabi_mpyl_f5hw        
-00012fa8  Init_System               
-00012fc8  ADC_SampleWait            
-00012fe4  TLC_Blank                 
-00012ffe  TLC_XLAT                  
-00013018  UART_SendStringCRLN       
-00013032  UART_CleanBufferTX        
-00013048  __TI_decompress_none      
-0001305e  __mspabi_divu             
-0001305e  __mspabi_remu             
-00013074  __mspabi_mpyi_f5hw        
-0001308a  UART_CleanBufferRX        
-0001309c  __mspabi_sral             
-000130ac  __mspabi_slll             
-000130bc  __mspabi_srll             
-000130cc  Init_Timers               
-000130da  TMR_SetTimerA0            
-000130e8  TMR_SetTimerA1            
-000130f6  TMR_SetTimerA2            
-00013104  ADC_SetMidpointOffset     
-00013110  __mspabi_fltid            
-0001311c  LED_RedToggle             
-00013124  SYS_Unlock                
-0001312c  LED_GreenToggle           
-00013132  TMR_ResetTimerA0          
-00013138  TMR_ResetTimerA1          
-0001313e  TMR_ResetTimerA2          
-00013144  __TI_decompress_rle24     
-0001314a  _system_pre_init          
-0001314e  C$$EXIT                   
-0001314e  abort                     
+00010000  PRO_ProcessData           
+000109e4  SYS_CalculateClocks       
+00011088  __TI_frcdivd              
+000114da  __TI_frcmpyd              
+000117be  __mspabi_addd             
+00011a96  __mspabi_mpyd             
+00011d18  __TI_frcaddd              
+00011f6a  __mspabi_divd             
+0001218c  sqrt                      
+0001237c  UART_Parameters           
+0001251c  _Dscale                   
+000126ba  TLC_SetLEDsLinear         
+0001283e  _Dnorm                    
+0001293e  UART_LookupUCBRSx         
+00012a3a  ADC_SetReference          
+00012b2a  TLC_UpdateLEDs            
+00012c04  __mspabi_cmpd             
+00012cdc  SPI_SetParametersB        
+00012dac  __TI_renormd              
+00012e5e  SPI_WriteB                
+00012f02  Init_App                  
+00012f98  Init_ADC                  
+0001302c  __mspabi_fltlid           
+000130c0  _auto_init_hold_wdt       
+00013152  TMR_ModeTimerA0           
+000131cc  TMR_ModeTimerA1           
+00013246  TMR_ModeTimerA2           
+000132c0  MSC_ABS                   
+00013336  __mspabi_fltuld           
+000133ac  _Dunscale                 
+00013486  __mspabi_fixdli           
+000134ec  main                      
+00013550  UART_PrintBanner          
+000135b2  Init_SPI                  
+0001360e  ADC_Sample                
+00013666  SYS_ConfigureOscillator   
+000136be  __mspabi_divul            
+000136be  __mspabi_remul            
+00013716  Init_UART                 
+00013764  ADC_Module                
+000137b0  MSC_Round                 
+000137fc  LED_DisplayShow           
+00013844  TLC_SetLEDs               
+0001388a  MSC_DelayUS               
+000138cc  SPI_ModuleInterruptsB     
+0001390e  PRO_AddToProcessBuffer    
+0001394e  SPI_ModuleB               
+0001398c  __mspabi_sral_15          
+00013990  __mspabi_sral_14          
+00013994  __mspabi_sral_13          
+00013998  __mspabi_sral_12          
+0001399c  __mspabi_sral_11          
+000139a0  __mspabi_sral_10          
+000139a4  __mspabi_sral_9           
+000139a8  __mspabi_sral_8           
+000139ac  __mspabi_sral_7           
+000139b0  __mspabi_sral_6           
+000139b4  __mspabi_sral_5           
+000139b8  __mspabi_sral_4           
+000139bc  __mspabi_sral_3           
+000139c0  __mspabi_sral_2           
+000139c4  __mspabi_sral_1           
+000139ca  __mspabi_slll_15          
+000139ce  __mspabi_slll_14          
+000139d2  __mspabi_slll_13          
+000139d6  __mspabi_slll_12          
+000139da  __mspabi_slll_11          
+000139de  __mspabi_slll_10          
+000139e2  __mspabi_slll_9           
+000139e6  __mspabi_slll_8           
+000139ea  __mspabi_slll_7           
+000139ee  __mspabi_slll_6           
+000139f2  __mspabi_slll_5           
+000139f6  __mspabi_slll_4           
+000139fa  __mspabi_slll_3           
+000139fe  __mspabi_slll_2           
+00013a02  __mspabi_slll_1           
+00013a08  __mspabi_srll_15          
+00013a0c  __mspabi_srll_14          
+00013a10  __mspabi_srll_13          
+00013a14  __mspabi_srll_12          
+00013a18  __mspabi_srll_11          
+00013a1c  __mspabi_srll_10          
+00013a20  __mspabi_srll_9           
+00013a24  __mspabi_srll_8           
+00013a28  __mspabi_srll_7           
+00013a2c  __mspabi_srll_6           
+00013a30  __mspabi_srll_5           
+00013a34  __mspabi_srll_4           
+00013a38  __mspabi_srll_3           
+00013a3c  __mspabi_srll_2           
+00013a40  __mspabi_srll_1           
+00013a46  Init_TLC5940              
+00013a7e  signal                    
+00013ab6  Init_Buttons              
+00013aec  Init_TimerA0              
+00013b22  Init_TimerA1              
+00013b58  Init_TimerA2              
+00013b8e  MSC_CleanBuffer           
+00013bc4  _Feraise                  
+00013bfa  feraiseexcept             
+00013c2e  BUT_Button1Interrupt      
+00013c60  LED_Red                   
+00013c92  TLC_XERRInterrupt         
+00013cc4  UART_ReceiveInterrupt     
+00013cf6  UART_TransmitInterrupt    
+00013d28  __mspabi_subd             
+00013d5a  raise                     
+00013d8c  TLC_GSCLK                 
+00013dbc  MSC_ABSL                  
+00013dea  __mspabi_negd             
+00013e18  ADC_EnableConversion      
+00013e44  ADC_Interrupt             
+00013e70  BUT_Button2Interrupt      
+00013e9c  LED_Green                 
+00013ec8  TMR_InterruptTimerA0      
+00013ef4  TMR_InterruptTimerA1      
+00013f20  TMR_InterruptTimerA2      
+00013f4c  UART_Module               
+00013f78  UART_SendChar             
+00013fa4  UART_Sleep                
+00013fd0  __mspabi_divi             
+00013fd0  __mspabi_remi             
+00013ffc  _system_pre_init          
 ffffffff  __binit__                 
 ffffffff  __c_args__                
 ffffffff  binit                     
 UNDEFED   __TI_INITARRAY_Base       
 UNDEFED   __TI_INITARRAY_Limit      
 
-[1026 symbols]
+[1063 symbols]

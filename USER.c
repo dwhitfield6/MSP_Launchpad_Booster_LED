@@ -23,6 +23,7 @@
 #include "ADC.h"
 #include "BUTTON.h"
 #include "LED.h"
+#include "PROCESSING.h"
 #include "SPI.h"
 #include "SYSTEM.h"
 #include "TIMERS.h"
@@ -126,12 +127,15 @@ void Init_App(void)
 
     /*~~~~~~~~~~~~~ Analog Audio ~~~~~~~~~~~~~~~~~*/
 	/* A3 */
+    CECTL3 |= (1 << Channel_Audio); // A3 input buffer is disabled
     Port_Audio &= ~Pin_Audio;	// set to input
 
 	/* A7 */
+    CECTL3 |= (1 << Channel_AudioLow); // A7 input buffer is disabled
     Port_AudioLow &= ~Pin_AudioLow;	// set to input
 
 	/* A10 */
+    CECTL3 |= (1 << Channel_AudioRaw); // A10 input buffer is disabled
     Port_AudioRaw &= ~Pin_AudioRaw;	// set to input
 }
 
@@ -144,12 +148,14 @@ void Init_App(void)
 void Init_System(void)
 {
 
+	REFCTL0 |= REFTCOFF; // Temperature sensor disabled to save power
 	Init_Buttons();
 	Init_Timers();
 	Init_SPI();
 	Init_TLC5940();
 	Init_UART();
 	Init_ADC();
+	Init_Processing();
 
 	__enable_interrupt();   // enable global interrupts
 }

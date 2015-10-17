@@ -13,8 +13,8 @@
 /******************************************************************************/
 /* Files to Include                                                           */
 /******************************************************************************/
-#ifndef ADC_H
-#define	ADC_H
+#ifndef PROCESSING_H
+#define	PROCESSING_H
 
 #include <msp430.h>
 
@@ -22,45 +22,36 @@
 #include "SYSTEM.h"
 
 /******************************************************************************/
-/* ADC_LEEWAY
+/* Processing types
  *
- * This is the maximum noise floor of the signal.
+ * This is the available types of data processing available.
  *                                                                            */
 /******************************************************************************/
-#define ADC_LEEWAY 		50
+#define AVERAGE 				0
+#define ABS_AVERAGE 			1
+#define POS_AVERAGE 			2
+#define NEG_AVERAGE 			3
+#define RMS						4
+#define WEIGHTED_AVERAGE 	 	5
+#define WEIGHTED_ABS_AVERAGE 	6
+#define WEIGHTED_POS_AVERAGE 	7
+#define WEIGHTED_NEG_AVERAGE 	8
+#define WEIGHTED_AVERAGE_2X		9
+#define WEIGHTED_ABS_AVERAGE_2X 10
+#define WEIGHTED_POS_AVERAGE_2X 11
+#define WEIGHTED_NEG_AVERAGE_2X 12
+#define WEIGHTED_AVERAGE_d5X		13
+#define WEIGHTED_ABS_AVERAGE_d5X 	14
+#define WEIGHTED_POS_AVERAGE_d5X 	15
+#define WEIGHTED_NEG_AVERAGE_d5X 	16
 
 /******************************************************************************/
-/* ADC channels
+/* DATA_BUFFER_SIZE
  *
- * This is the place in the buffer that the different raw count channels are
- *  stored.
+ * This is the number of data samples of the processing buffer.
  *                                                                            */
 /******************************************************************************/
-#define AUDIO 		0
-#define RAW			1
-#define AUDIORAW	RAW
-#define LOWPASS		2
-#define AUDIOLOW	LOWPASS
-
-/******************************************************************************/
-/* reference voltage
- *
- * This is the reference voltage for the ADC.
- *                                                                            */
-/******************************************************************************/
-#define VOLTS_0			0
-#define VOLTS_1v2 		12
-#define VOLTS_2v0 		20
-#define VOLTS_2v5 		20
-#define VOLTS_3v3 		33
-
-/******************************************************************************/
-/* ADC_NUMBER_CHANNELS
- *
- * This is the number of channels that we use on the ADC.
- *                                                                            */
-/******************************************************************************/
-#define ADC_NUMBER_CHANNELS (LOWPASS + 1)
+#define DATA_BUFFER_SIZE 1000
 
 /******************************************************************************/
 /* Defines                                                                    */
@@ -69,11 +60,8 @@
 /******************************************************************************/
 /* Global Variables                                                           */
 /******************************************************************************/
-extern short ADC_Counts[ADC_NUMBER_CHANNELS];
-extern volatile unsigned char ADC_Ready;
-extern volatile unsigned char CurrentChannel;
-extern unsigned char VREF;
-extern short ADC_Midpoint_Offset[ADC_NUMBER_CHANNELS];
+extern short DataBuffer[DATA_BUFFER_SIZE];
+extern short ProcessingWindow;
 
 /******************************************************************************/
 /* Macro Functions                                                            */
@@ -82,17 +70,9 @@ extern short ADC_Midpoint_Offset[ADC_NUMBER_CHANNELS];
 /******************************************************************************/
 /* Function prototypes                                                        */
 /******************************************************************************/
-void Init_ADC(void);
-short ADC_SetMidpointOffset(unsigned char channel);
-void ADC_SetReference(unsigned char NegativeRef, unsigned char PositiveRef);
-unsigned char ADC_ReferenceBusy(void);
-unsigned char ADC_Interrupt(unsigned char state);
-unsigned char ADC_Module(unsigned char state);
-unsigned char ADC_EnableConversion(unsigned char state);
-void ADC_Sample(unsigned char channel);
-short ADC_SampleWait(unsigned char channel);
-unsigned char ADC_Busy(void);
-short ADC_Read(unsigned char channel);
-unsigned char ADC_ChangeChannel(void);
+void Init_Processing(void);
+void PRO_ClearProcessBuffer(void);
+void PRO_AddToProcessBuffer(short data);
+long PRO_ProcessData(unsigned char type, short window);
 
-#endif	/* ADC_H */
+#endif	/* PROCESSING_H */

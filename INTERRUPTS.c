@@ -55,6 +55,7 @@
 #include "ADC.h"
 #include "BUTTON.h"
 #include "LED.h"
+#include "PROCESSING.h"
 #include "SPI.h"
 #include "SYSTEM.h"
 #include "TLC5940.h"
@@ -101,7 +102,10 @@ __interrupt void Port1_ISR(void)
 	{
 		/* Button 2 was pressed */
 		LED_Green(ON);
-		FadeDirection = FORWARD;
+		if(ProcessingWindow < DATA_BUFFER_SIZE)
+		{
+			ProcessingWindow += 5;
+		}
 		TMR_ResetTimerA0();
 		TMR_ModeTimerA0(UP);
 		BUT_Button2Interrupt(OFF);
@@ -121,12 +125,14 @@ __interrupt void Port1_ISR(void)
 #pragma vector=PORT4_VECTOR
 __interrupt void Port4_ISR(void)
 {
-	WAKE();
 	if(P4IFG & Pin_Button1)
 	{
 		/* Button 1 was pressed */
 		LED_Red(ON);
-		FadeDirection = BACKWARD;
+		if(ProcessingWindow > 5)
+		{
+			ProcessingWindow -= 5;
+		}
 		TMR_ResetTimerA1();
 		TMR_ModeTimerA1(UP);
 		BUT_Button1Interrupt(OFF);
@@ -141,7 +147,6 @@ __interrupt void Port4_ISR(void)
 #pragma vector=TIMER0_A0_VECTOR
 __interrupt void TIMER0_A0_ISR(void)
 {
-	WAKE();
 	LED_Green(OFF);
 	TMR_ModeTimerA0(OFF);
 	P1IFG &= ~Pin_Button2;
@@ -168,7 +173,6 @@ __interrupt void TIMER0_A1_ISR(void)
 #pragma vector=TIMER1_A0_VECTOR
 __interrupt void TIMER1_A0_ISR(void)
 {
-	WAKE();
 	LED_Red(OFF);
 	TMR_ModeTimerA1(OFF);
 	P4IFG &= ~Pin_Button1;

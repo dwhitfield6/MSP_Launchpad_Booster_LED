@@ -25,13 +25,13 @@
 #include "SYSTEM.h"
 
 /******************************************************************************/
-/* ADC_MIDPOINT_OFFSET
+/* ADC_Midpoint_Offset
  *
  * This is the adc counts when there is no audiop playing or the 3.5mm
  *  connector is unplugged.
  *                                                                            */
 /******************************************************************************/
-short ADC_MIDPOINT_OFFSET;
+short ADC_Midpoint_Offset[ADC_NUMBER_CHANNELS];
 
 /******************************************************************************/
 /* Global Variables                                                           */
@@ -64,6 +64,7 @@ void Init_ADC(void)
 	/* pin as analog channel A10 */
 	P4SEL1 |= Pin_AudioRaw;
 	P4SEL0 |= Pin_AudioRaw;
+
 	ADC_EnableConversion(OFF);
 	ADC_Module(OFF);
 
@@ -96,33 +97,100 @@ void Init_ADC(void)
 	ADC12CTL2 |= ADC12RES1;  // 10b = 12 bit (14 clock cycle conversion time)
 	ADC12CTL2 &= ~ADC12RES0; // 10b = 12 bit (14 clock cycle conversion time)
 
-	VREF = VOLTS_3v3; // set reference to the VDD voltage rail
-
-	switch(VREF)
-	{
-	case VOLTS_1v2:
-		/* Selects combinations of VR+ and VR- sources as well as the buffer selection */
-		ADC12MCTL0 &= ~(ADC12VRSEL3 | ADC12VRSEL2 | ADC12VRSEL1 | ADC12VRSEL0); // 0011b = VR+ = VeREF+ buffered, VR- = AVSS
-		ADC12MCTL0 |= (ADC12VRSEL1 | ADC12VRSEL0);  // 0011b = VR+ = VeREF+ buffered, VR- = AVSS
-
-		/* Reference voltage level */
-		CECTL2 &= ~CEREFL1; // 01b = 1.2 V is selected as shared reference voltage input
-		CECTL2 |= CEREFL1;  // 01b = 1.2 V is selected as shared reference voltage input
-		break;
-	case VOLTS_3v3:
-		/* Selects combinations of VR+ and VR- sources as well as the buffer selection */
-		ADC12MCTL0 &= ~(ADC12VRSEL3 | ADC12VRSEL2 | ADC12VRSEL1 | ADC12VRSEL0); // 0011b = VR+ = VeREF+ buffered, VR- = AVSS
-		ADC12MCTL0 |= (ADC12VRSEL1 | ADC12VRSEL0);  // 0011b = VR+ = VeREF+ buffered, VR- = AVSS
-
-		/* Reference voltage level */
-		CECTL2 &= ~CEREFL1; // 00b = Reference amplifier is disabled. No reference voltage is requested.
-		CECTL2 &= ~CEREFL1;  // 00b = Reference amplifier is disabled. No reference voltage is requested.
-		break;
-	}
+	ADC_SetReference(VOLTS_0, VOLTS_3v3); // set reference to the VSS and VDD voltage rail
 
 	ADC_Interrupt(ON);
 	ADC_Module(ON);
 	ADC_EnableConversion(ON);
+}
+
+/******************************************************************************/
+/* ADC_SetReference
+ *
+ * The function sets the ADC reference voltages.
+ *
+ * Input:
+ * - negative reference (VOLTS_0, VOLTS_1v2, VOLTS_2v0, VOLTS_2v5, or
+ *  VOLTS_3v3)
+ * - positive reference (VOLTS_0, VOLTS_1v2, VOLTS_2v0, VOLTS_2v5, or
+ *  VOLTS_3v3)
+ * ~~~ Note: either negative reference has to be VOLTS_0 or positive
+ *   reference has to be VOLTS_3v3 because we only have 1 non rail reference
+ *    option.
+ * Output: N/A
+ * Action: sets the ADC reference voltages
+ *                                                                            */
+/******************************************************************************/
+void ADC_SetReference(unsigned char NegativeRef, unsigned char PositiveRef)
+{
+	while(ADC_ReferenceBusy()); // wait until the reference is not busy
+
+	ADC12MCTL0 &= ~(ADC12VRSEL3 | ADC12VRSEL2 | ADC12VRSEL1 | ADC12VRSEL0); // clear VR+ and VR- sources
+
+	if((NegativeRef == VOLTS_0) &&  (PositiveRef == VOLTS_3v3) || (NegativeRef >= PositiveRef))
+	{
+		REFCTL0 &= ~REFON; // Disables reference
+		return;
+	}
+
+	REFCTL0 &= ~(REFVSEL1 | REFVSEL0); // clear reference voltage level select
+
+	if((NegativeRef == VOLTS_0) &&  (PositiveRef == VOLTS_2v5))
+	{
+		REFCTL0 |= (REFVSEL1); // 10b = 2.5 V available when reference requested
+		ADC12MCTL0 |= (ADC12VRSEL1);  // 0010b = VR+ = VeREF-, VR- = AVSS
+	}
+	else if((NegativeRef == VOLTS_0) &&  (PositiveRef == VOLTS_2v0))
+	{
+		REFCTL0 |= (REFVSEL0); // 01b = 2.0 V available when reference requested or REFON = 1
+		ADC12MCTL0 |= (ADC12VRSEL1);  // 0010b = VR+ = VeREF-, VR- = AVSS
+	}
+	else if((NegativeRef == VOLTS_0) &&  (PositiveRef == VOLTS_1v2))
+	{
+		/* 00b = 1.2 V available when reference requested or REFON = 1 */
+		ADC12MCTL0 |= (ADC12VRSEL1);  // 0010b = VR+ = VeREF-, VR- = AVSS
+	}
+	else if((NegativeRef == VOLTS_2v5) &&  (PositiveRef == VOLTS_3v3))
+	{
+		REFCTL0 |= (REFVSEL1); // 10b = 2.5 V available when reference requested
+		ADC12MCTL0 |= (ADC12VRSEL2);  // 0100b = VR+ = VeREF+, VR- = AVSS
+	}
+	else if((NegativeRef == VOLTS_2v0) &&  (PositiveRef == VOLTS_3v3))
+	{
+		REFCTL0 |= (REFVSEL0); // 01b = 2.0 V available when reference requested or REFON = 1
+		ADC12MCTL0 |= (ADC12VRSEL2);  // 0100b = VR+ = VeREF+, VR- = AVSS
+	}
+	else if((NegativeRef == VOLTS_1v2) &&  (PositiveRef == VOLTS_3v3))
+	{
+		/* 00b = 1.2 V available when reference requested or REFON = 1 */
+		ADC12MCTL0 |= (ADC12VRSEL2);  // 0100b = VR+ = VeREF+, VR- = AVSS
+	}
+	else
+	{
+		REFCTL0 &= ~REFON; // Disables reference
+	}
+
+	REFCTL0 |= REFON; // enable reference
+	while(!(REFCTL0 & REFGENRDY)); // wait until the reference voltage output is ready to be used
+}
+
+/******************************************************************************/
+/* ADC_ReferenceBusy
+ *
+ * The function indicates if the reference is busy or ready to be written to.
+ *
+ * Input: N/A
+ * Output: reference status
+ * Action: indicates if the reference is busy or ready to be written to
+ *                                                                            */
+/******************************************************************************/
+unsigned char ADC_ReferenceBusy(void)
+{
+	if(REFCTL0 & REFGENBUSY)
+	{
+		return TRUE; // Reference generator is busy
+	}
+	return FALSE;
 }
 
 /******************************************************************************/
@@ -131,14 +199,15 @@ void Init_ADC(void)
  * The function reads the midpoint offset which is the ADC counts when the
  *  audio connector is unplugged or the audio is muted.
  *
- * Input: N/A
+ * Input: channel (AUDIO, RAW, or LOWPASS)
  * Output: the ADC midpoint when audio is muted
  * Action: reads the midpoint offset
  *                                                                            */
 /******************************************************************************/
-short ADC_SetMidpointOffset(void)
+short ADC_SetMidpointOffset(unsigned char channel)
 {
-	ADC_MIDPOINT_OFFSET = ADC_SampleWait(AUDIO);
+	ADC_Midpoint_Offset[channel] = ADC_SampleWait(channel);
+	return ADC_Midpoint_Offset[channel];
 }
 
 /******************************************************************************/
@@ -253,6 +322,7 @@ void ADC_Sample(unsigned char channel)
 	unsigned char status = ADC_EnableConversion(OFF);
 	ADC_Ready = FALSE;
 	ADC12MCTL0 &= ~(0x001F);
+	CurrentChannel = channel;
 	switch (channel)
 	{
 	case AUDIO:

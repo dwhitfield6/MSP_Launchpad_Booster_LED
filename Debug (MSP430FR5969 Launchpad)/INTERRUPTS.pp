@@ -13,6 +13,7 @@ INTERRUPTS.obj: ../USER.h
 INTERRUPTS.obj: ../SYSTEM.h
 INTERRUPTS.obj: ../BUTTON.h
 INTERRUPTS.obj: ../LED.h
+INTERRUPTS.obj: ../PROCESSING.h
 INTERRUPTS.obj: ../SPI.h
 INTERRUPTS.obj: ../TLC5940.h
 INTERRUPTS.obj: ../TIMERS.h
@@ -31,6 +32,7 @@ C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.5/include/intrinsics_legacy_undefs.
 ../SYSTEM.h: 
 ../BUTTON.h: 
 ../LED.h: 
+../PROCESSING.h: 
 ../SPI.h: 
 ../TLC5940.h: 
 ../TIMERS.h: 

@@ -13,6 +13,7 @@ USER.obj: ../USER.h
 USER.obj: ../SYSTEM.h
 USER.obj: ../BUTTON.h
 USER.obj: ../LED.h
+USER.obj: ../PROCESSING.h
 USER.obj: ../SPI.h
 USER.obj: ../TIMERS.h
 USER.obj: ../TLC5940.h
@@ -31,6 +32,7 @@ C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.5/include/intrinsics_legacy_undefs.
 ../SYSTEM.h: 
 ../BUTTON.h: 
 ../LED.h: 
+../PROCESSING.h: 
 ../SPI.h: 
 ../TIMERS.h: 
 ../TLC5940.h: 

@@ -12,6 +12,7 @@ C_SRCS += \
 ../INTERRUPTS.c \
 ../LED.c \
 ../MISC.c \
+../PROCESSING.c \
 ../SPI.c \
 ../SYSTEM.c \
 ../TIMERS.c \
@@ -26,6 +27,7 @@ OBJS += \
 ./INTERRUPTS.obj \
 ./LED.obj \
 ./MISC.obj \
+./PROCESSING.obj \
 ./SPI.obj \
 ./SYSTEM.obj \
 ./TIMERS.obj \
@@ -40,6 +42,7 @@ C_DEPS += \
 ./INTERRUPTS.pp \
 ./LED.pp \
 ./MISC.pp \
+./PROCESSING.pp \
 ./SPI.pp \
 ./SYSTEM.pp \
 ./TIMERS.pp \
@@ -54,6 +57,7 @@ C_DEPS__QUOTED += \
 "INTERRUPTS.pp" \
 "LED.pp" \
 "MISC.pp" \
+"PROCESSING.pp" \
 "SPI.pp" \
 "SYSTEM.pp" \
 "TIMERS.pp" \
@@ -68,6 +72,7 @@ OBJS__QUOTED += \
 "INTERRUPTS.obj" \
 "LED.obj" \
 "MISC.obj" \
+"PROCESSING.obj" \
 "SPI.obj" \
 "SYSTEM.obj" \
 "TIMERS.obj" \
@@ -82,6 +87,7 @@ C_SRCS__QUOTED += \
 "../INTERRUPTS.c" \
 "../LED.c" \
 "../MISC.c" \
+"../PROCESSING.c" \
 "../SPI.c" \
 "../SYSTEM.c" \
 "../TIMERS.c" \

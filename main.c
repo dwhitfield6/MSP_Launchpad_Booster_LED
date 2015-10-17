@@ -11,6 +11,9 @@
  * 							Added base periperal functionality for ADC,
  * 							  Timers, UART, and drivers for TLC5940.
  * 							Added audio sampling to make a VU meter.
+ * 							Added variable space to FRAM to increase
+ * 							  processing buffer size.
+ * 							Added processing algorithms.
  *                                                                            */
 /******************************************************************************/
 
@@ -27,6 +30,7 @@
 #include "ADC.h"
 #include "LED.h"
 #include "MISC.h"
+#include "PROCESSING.h"
 #include "SYSTEM.h"
 #include "TLC5940.h"
 #include "UART.h"
@@ -47,7 +51,7 @@
 int main (void)
 {
 	short temp = 0;
-	unsigned char direction;
+	unsigned short window;
 
 	WDTCTL = WDTPW | WDTHOLD;               // Stop watchdog timer
 
@@ -61,16 +65,15 @@ int main (void)
     LED_DisplayShow();
 
     /* Initialize variables */
-    direction = FadeDirection;
-    ADC_SetMidpointOffset();
+    ADC_SetMidpointOffset(AUDIORAW);
 
     while(1)
     {
-    	temp = (ADC_SampleWait(AUDIO) - (ADC_MIDPOINT_OFFSET + 50));
-    	if(temp >= 0)
-    	{
-    		TLC_SetLEDsLinear(temp, 300, direction);
-    	}
+    	window = ProcessingWindow;
+    	temp = ADC_SampleWait(AUDIORAW) - ADC_Midpoint_Offset[AUDIORAW] - ADC_LEEWAY;
+    	PRO_AddToProcessBuffer(temp);
+    	temp = (short) PRO_ProcessData(WEIGHTED_POS_AVERAGE_d5X, window);
+    	TLC_SetLEDsLinear(temp, 250, FadeDirection);
     }
 	return 0;
 }
