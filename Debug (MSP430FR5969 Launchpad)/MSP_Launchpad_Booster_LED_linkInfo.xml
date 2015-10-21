@@ -2,7 +2,7 @@
 <link_info>
    <banner>MSP430 Linker PC v4.4.5</banner>
    <copyright>Copyright (c) 2003-2015 Texas Instruments Incorporated</copyright>
-   <link_time>0x5621a678</link_time>
+   <link_time>0x5627e2ed</link_time>
    <link_errors>0x0</link_errors>
    <output_file>MSP_Launchpad_Booster_LED.out</output_file>
    <entry_point>
@@ -2574,7 +2574,7 @@
          <size>0x13d</size>
          <input_file_ref idref="fl-5a"/>
       </object_component>
-      <object_component id="oc-99">
+      <object_component id="oc-9a">
          <name>.debug_info</name>
          <load_address>0xab86</load_address>
          <run_address>0xab86</run_address>
@@ -2595,7 +2595,7 @@
          <size>0x160</size>
          <input_file_ref idref="fl-5b"/>
       </object_component>
-      <object_component id="oc-3fe">
+      <object_component id="oc-3fd">
          <name>.debug_info</name>
          <load_address>0xaeaf</load_address>
          <run_address>0xaeaf</run_address>
@@ -7346,14 +7346,14 @@
          <size>0x20</size>
          <input_file_ref idref="fl-4c"/>
       </object_component>
-      <object_component id="oc-9b">
+      <object_component id="oc-99">
          <name>.debug_aranges</name>
          <load_address>0xb60</load_address>
          <run_address>0xb60</run_address>
          <size>0x20</size>
          <input_file_ref idref="fl-5a"/>
       </object_component>
-      <object_component id="oc-3fd">
+      <object_component id="oc-3fe">
          <name>.debug_aranges</name>
          <load_address>0xb80</load_address>
          <run_address>0xb80</run_address>
@@ -8375,7 +8375,7 @@
          <size>0x2b</size>
          <input_file_ref idref="fl-4c"/>
       </object_component>
-      <object_component id="oc-9a">
+      <object_component id="oc-9b">
          <name>.debug_pubnames</name>
          <load_address>0xfdb</load_address>
          <run_address>0xfdb</run_address>
@@ -9791,10 +9791,10 @@
             <object_component_ref idref="oc-f3"/>
             <object_component_ref idref="oc-f9"/>
             <object_component_ref idref="oc-145"/>
-            <object_component_ref idref="oc-99"/>
+            <object_component_ref idref="oc-9a"/>
             <object_component_ref idref="oc-140"/>
             <object_component_ref idref="oc-4ac"/>
-            <object_component_ref idref="oc-3fe"/>
+            <object_component_ref idref="oc-3fd"/>
             <object_component_ref idref="oc-4ad"/>
             <object_component_ref idref="oc-51b"/>
             <object_component_ref idref="oc-4a6"/>
@@ -10513,8 +10513,8 @@
             <object_component_ref idref="oc-ed"/>
             <object_component_ref idref="oc-7b"/>
             <object_component_ref idref="oc-fa"/>
-            <object_component_ref idref="oc-9b"/>
-            <object_component_ref idref="oc-3fd"/>
+            <object_component_ref idref="oc-99"/>
+            <object_component_ref idref="oc-3fe"/>
             <object_component_ref idref="oc-4a7"/>
             <object_component_ref idref="oc-518"/>
             <object_component_ref idref="oc-4fe"/>
@@ -10668,7 +10668,7 @@
             <object_component_ref idref="oc-ee"/>
             <object_component_ref idref="oc-7c"/>
             <object_component_ref idref="oc-fb"/>
-            <object_component_ref idref="oc-9a"/>
+            <object_component_ref idref="oc-9b"/>
             <object_component_ref idref="oc-3ff"/>
             <object_component_ref idref="oc-4a8"/>
             <object_component_ref idref="oc-519"/>

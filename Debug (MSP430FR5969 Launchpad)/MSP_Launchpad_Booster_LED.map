@@ -1,7 +1,7 @@
 ******************************************************************************
                   MSP430 Linker PC v4.4.5                      
 ******************************************************************************
->> Linked Fri Oct 16 18:38:00 2015
+>> Linked Wed Oct 21 12:09:33 2015
 
 OUTPUT FILE NAME:   <MSP_Launchpad_Booster_LED.out>
 ENTRY POINT SYMBOL: "_c_int00_noargs_noexit_mpu"  address: 000061d0

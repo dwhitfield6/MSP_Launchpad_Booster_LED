@@ -6,6 +6,7 @@
  * Date         Revision    Comments
  * MM/DD/YY
  * --------     ---------   ----------------------------------------------------
+ * 10/21/15     4.0_DW0b    Changed version to continue developement.
  * 10/14/15     4.0_DW0a    Initial project make (branched from
  * 							  "MSP_Launchpad_MSP430FR5969_Test".
  * 							Added base periperal functionality for ADC,
