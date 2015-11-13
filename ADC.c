@@ -82,7 +82,7 @@ void Init_ADC(void)
 	ADC12CTL1 &= ~(ADC12SHS2 | ADC12SHS1 | ADC12SHS0); // 000b = ADC12SC bit
 
 	/* ADC12_B clock divider */
-	ADC12CTL1 &= ~(ADC12DIV2 | ADC12DIV1 | ADC12DIV0); // 000b = /1
+	ADC12CTL1 |= (ADC12DIV2 | ADC12DIV1 | ADC12DIV0); // 111b = /8
 
 	/* ADC12_B sample-and-hold pulse-mode select */
 	ADC12CTL1 |= ADC12SHP;  // 1b = SAMPCON signal is sourced from the sampling timer

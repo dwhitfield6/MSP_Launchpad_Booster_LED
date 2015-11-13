@@ -216,6 +216,28 @@ __interrupt void Timer2_A1_ISR(void)
 }
 
 /******************************************************************************/
+/* Timer B0 interrupt (used for the filter clock)
+ *                                                                            */
+/******************************************************************************/
+#pragma vector=TIMER0_B0_VECTOR
+__interrupt void Timer0_B0_ISR(void)
+{
+	TB0CCTL1 &= ~CCIFG;
+}
+
+/******************************************************************************/
+/* Timer B0 interrupt (timer overflow)
+ *                                                                            */
+/******************************************************************************/
+#pragma vector=TIMER0_B1_VECTOR
+__interrupt void Timer0_B1_ISR(void)
+{
+	unsigned short source;
+
+	source = TB0IV;
+}
+
+/******************************************************************************/
 /* eUSCIB0 interrupt (SPI to communicate with TLC5940)
  *                                                                            */
 /******************************************************************************/

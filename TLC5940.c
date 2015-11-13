@@ -76,8 +76,8 @@ void TLC_GSCLK(unsigned char state)
 	else
 	{
 		P3OUT &= ~Pin_PWM_CLK;
-		P3SEL1 &= ~Pin_PWM_CLK; // pin 3.4 is set SMCLK
-		P3SEL0 &= ~Pin_PWM_CLK; // pin 3.4 is set SMCLK
+		P3SEL1 &= ~Pin_PWM_CLK; // pin 3.4 is set to P3.4 GPIO
+		P3SEL0 &= ~Pin_PWM_CLK; // pin 3.4 is set to P3.4 GPIO
 	}
 }
 

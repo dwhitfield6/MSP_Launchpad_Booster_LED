@@ -9,6 +9,7 @@ CMD_SRCS += \
 C_SRCS += \
 ../ADC.c \
 ../BUTTON.c \
+../FILTER.c \
 ../INTERRUPTS.c \
 ../LED.c \
 ../MISC.c \
@@ -24,6 +25,7 @@ C_SRCS += \
 OBJS += \
 ./ADC.obj \
 ./BUTTON.obj \
+./FILTER.obj \
 ./INTERRUPTS.obj \
 ./LED.obj \
 ./MISC.obj \
@@ -39,6 +41,7 @@ OBJS += \
 C_DEPS += \
 ./ADC.pp \
 ./BUTTON.pp \
+./FILTER.pp \
 ./INTERRUPTS.pp \
 ./LED.pp \
 ./MISC.pp \
@@ -54,6 +57,7 @@ C_DEPS += \
 C_DEPS__QUOTED += \
 "ADC.pp" \
 "BUTTON.pp" \
+"FILTER.pp" \
 "INTERRUPTS.pp" \
 "LED.pp" \
 "MISC.pp" \
@@ -69,6 +73,7 @@ C_DEPS__QUOTED += \
 OBJS__QUOTED += \
 "ADC.obj" \
 "BUTTON.obj" \
+"FILTER.obj" \
 "INTERRUPTS.obj" \
 "LED.obj" \
 "MISC.obj" \
@@ -84,6 +89,7 @@ OBJS__QUOTED += \
 C_SRCS__QUOTED += \
 "../ADC.c" \
 "../BUTTON.c" \
+"../FILTER.c" \
 "../INTERRUPTS.c" \
 "../LED.c" \
 "../MISC.c" \

@@ -22,6 +22,7 @@
 
 #include "ADC.h"
 #include "BUTTON.h"
+#include "FILTER.h"
 #include "LED.h"
 #include "PROCESSING.h"
 #include "SPI.h"
@@ -137,6 +138,14 @@ void Init_App(void)
 	/* A10 */
     CECTL3 |= (1 << Channel_AudioRaw); // A10 input buffer is disabled
     Port_AudioRaw &= ~Pin_AudioRaw;	// set to input
+
+    /*~~~~~~~~~~~~~ Switched cap filter (MAX7404) ~~~~~~~~~~~~~~~~~*/
+    /* Clock */
+    Port_FilterCLK |= Pin_FilterCLK; // set to output
+
+    /* Shutdown */
+    Port_FilterSHDN |= Pin_FilterSHDN; // set to output
+
 }
 
 /******************************************************************************/
@@ -156,6 +165,7 @@ void Init_System(void)
 	Init_UART();
 	Init_ADC();
 	Init_Processing();
+	Init_Filter();
 
 	__enable_interrupt();   // enable global interrupts
 }

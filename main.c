@@ -6,7 +6,9 @@
  * Date         Revision    Comments
  * MM/DD/YY
  * --------     ---------   ----------------------------------------------------
- * 10/21/15     4.0_DW0b    Changed version to continue developement.
+ * 10/21/15     4.0_DW0b    Added low pass filter IC functionality.
+ * 							Fixed some comment errors.
+ * 							Changed version to continue developement.
  * 10/14/15     4.0_DW0a    Initial project make (branched from
  * 							  "MSP_Launchpad_MSP430FR5969_Test".
  * 							Added base periperal functionality for ADC,
@@ -44,6 +46,7 @@
 /******************************************************************************/
 /* Global Variable                                                            */
 /******************************************************************************/
+unsigned short test[16] = {0,2048,0,0,0,0,0,0,0,0,0,0,5000,0,0,0};
 
 /******************************************************************************/
 /* Main Program                                                               */
@@ -66,15 +69,16 @@ int main (void)
     LED_DisplayShow();
 
     /* Initialize variables */
-    ADC_SetMidpointOffset(AUDIORAW);
+    ADC_SetMidpointOffset(AUDIOLOW);
 
     while(1)
     {
     	window = ProcessingWindow;
-    	temp = ADC_SampleWait(AUDIORAW) - ADC_Midpoint_Offset[AUDIORAW] - ADC_LEEWAY;
+    	temp = ADC_SampleWait(AUDIOLOW) - ADC_Midpoint_Offset[AUDIOLOW] - ADC_LEEWAY;
     	PRO_AddToProcessBuffer(temp);
     	temp = (short) PRO_ProcessData(WEIGHTED_POS_AVERAGE_d5X, window);
     	TLC_SetLEDsLinear(temp, 250, FadeDirection);
+    	//TLC_SetLEDs(test);
     }
 	return 0;
 }

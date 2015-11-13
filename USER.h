@@ -138,6 +138,15 @@
 #define Pin_AudioRaw		0x04  	// P4.2 used as A10
 #define Channel_AudioRaw	10  	// P4.2 used as A10
 
+/************* Switch Capacitor Filter *************/
+/* Filter clock input */
+#define Port_FilterCLK		P1DIR 	// P1.4 used as TB0.1
+#define Pin_FilterCLK		0x10  	// P1.4 used as TB0.1
+
+/* Filter shutdown  */
+#define Port_FilterSHDN		P3DIR 	// P3.0
+#define Pin_FilterSHDN		0x01  	// P3.0
+
 /******************************************************************************/
 /* Version variables                                                          */
 /******************************************************************************/
