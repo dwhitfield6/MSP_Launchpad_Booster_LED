@@ -1,7 +1,7 @@
 ******************************************************************************
                   MSP430 Linker PC v4.4.6                      
 ******************************************************************************
->> Linked Thu Nov 19 19:59:39 2015
+>> Linked Thu Nov 19 20:07:42 2015
 
 OUTPUT FILE NAME:   <MSP_Launchpad_Booster_LED.out>
 ENTRY POINT SYMBOL: "_c_int00_noargs_noexit_mpu"  address: 000061bc
@@ -20,7 +20,7 @@ MEMORY CONFIGURATION
   INFOA                 00001980   00000080  00000000  00000080  RWIX
   RAM                   00001c00   00000800  00000640  000001c0  RWIX
   FRAM_VARS             00004400   00001c00  00000fa0  00000c60  RWIX
-  FRAM                  00006000   00009f80  0000056a  00009a16  RWIX
+  FRAM                  00006000   00009f80  00000566  00009a1a  RWIX
   JTAGSIGNATURE         0000ff80   00000004  00000004  00000000  RWIX  ffff 
   BSLSIGNATURE          0000ff84   00000004  00000004  00000000  RWIX  ffff 
   IPESIGNATURE          0000ff88   00000008  00000008  00000000  RWIX  ffff 
@@ -153,18 +153,18 @@ section   page    origin      length       input sections
 .ipe_vars 
 *          0    00006000    00000000     UNINITIALIZED
 
-.cinit     0    000064f2    00000078     
-                  000064f2    00000056     (.cinit..data.load) [load image, compression = rle]
-                  00006548    0000000c     (__TI_handler_table)
-                  00006554    00000006     (.cinit..bss.load) [load image, compression = zero_init]
-                  0000655a    00000010     (__TI_cinit_table)
+.cinit     0    000064ee    00000078     
+                  000064ee    00000056     (.cinit..data.load) [load image, compression = rle]
+                  00006544    0000000c     (__TI_handler_table)
+                  00006550    00000006     (.cinit..bss.load) [load image, compression = zero_init]
+                  00006556    00000010     (__TI_cinit_table)
 
 .init_array 
 *          0    00006000    00000000     UNINITIALIZED
 
-.const     0    00006248    000002aa     
+.const     0    00006248    000002a6     
                   00006248    00000240     UART.obj (.const:Table_UCBRSx)
-                  00006488    0000006a     UART.obj (.const:.string)
+                  00006488    00000066     UART.obj (.const:.string)
 
 $fill000   0    0000ff80    00000004     
                   0000ff80    00000004     --HOLE-- [fill = ffff]
@@ -386,14 +386,14 @@ SYSNMI     0    0000fffc    00000002
 
 LINKER GENERATED COPY TABLES
 
-__TI_cinit_table @ 0000655a records: 2, size/record: 8, table size: 16
-	.data: load addr=000064f2, load size=00000056 bytes, run addr=0000202c, run size=00000174 bytes, compression=rle
-	.bss: load addr=00006554, load size=00000006 bytes, run addr=00001c00, run size=0000042c bytes, compression=zero_init
+__TI_cinit_table @ 00006556 records: 2, size/record: 8, table size: 16
+	.data: load addr=000064ee, load size=00000056 bytes, run addr=0000202c, run size=00000174 bytes, compression=rle
+	.bss: load addr=00006550, load size=00000006 bytes, run addr=00001c00, run size=0000042c bytes, compression=zero_init
 
 
 LINKER GENERATED HANDLER TABLE
 
-__TI_handler_table @ 00006548 records: 3, size/record: 4, table size: 12
+__TI_handler_table @ 00006544 records: 3, size/record: 4, table size: 12
 	index: 0, handler: __TI_zero_init
 	index: 1, handler: __TI_decompress_rle24
 	index: 2, handler: __TI_decompress_none
@@ -1329,10 +1329,10 @@ address   name
 00002154  _Zero                     
 00002400  __STACK_END               
 000000a0  __STACK_SIZE              
-0000655a  __TI_CINIT_Base           
-0000656a  __TI_CINIT_Limit          
-00006548  __TI_Handler_Table_Base   
-00006554  __TI_Handler_Table_Limit  
+00006556  __TI_CINIT_Base           
+00006566  __TI_CINIT_Limit          
+00006544  __TI_Handler_Table_Base   
+00006550  __TI_Handler_Table_Limit  
 UNDEFED   __TI_INITARRAY_Base       
 UNDEFED   __TI_INITARRAY_Limit      
 00006242  __TI_ISR_TRAP             
@@ -2333,10 +2333,10 @@ address   name
 0000623c  Timer0_B0_ISR             
 00006242  __TI_ISR_TRAP             
 00006248  Table_UCBRSx              
-00006548  __TI_Handler_Table_Base   
-00006554  __TI_Handler_Table_Limit  
-0000655a  __TI_CINIT_Base           
-0000656a  __TI_CINIT_Limit          
+00006544  __TI_Handler_Table_Base   
+00006550  __TI_Handler_Table_Limit  
+00006556  __TI_CINIT_Base           
+00006566  __TI_CINIT_Limit          
 0000a501  mpu_ctl0_value            
 0000ffcc  __TI_int30                
 0000ffce  __TI_int31                

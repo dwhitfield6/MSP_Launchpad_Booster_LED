@@ -25,8 +25,8 @@
 /******************************************************************************/
 #define CPU_VERSION    "4"
 #define CPU_REVISION   "0"
-#define CPU_ALPHA      ""
-#define CPU_BRANCH     "DW0b"
+#define CPU_ALPHA      "a"
+#define CPU_BRANCH     ""
 
 /******************************************************************************/
 /* PCB board
