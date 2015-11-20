@@ -6,6 +6,7 @@
  * Date         Revision    Comments
  * MM/DD/YY
  * --------     ---------   ----------------------------------------------------
+ * 11/19/15     4.0a_DW0a   Changed version to continue developement.
  * 11/19/15     4.0a        First minor release. Version change only.
  * 10/21/15     4.0_DW0b    Added low pass filter IC functionality.
  * 							Fixed some comment errors.
