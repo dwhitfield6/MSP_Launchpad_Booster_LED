@@ -9,9 +9,11 @@ CMD_SRCS += \
 C_SRCS += \
 ../ADC.c \
 ../BUTTON.c \
+../FILTER.c \
 ../INTERRUPTS.c \
 ../LED.c \
 ../MISC.c \
+../PROCESSING.c \
 ../SPI.c \
 ../SYSTEM.c \
 ../TIMERS.c \
@@ -23,9 +25,11 @@ C_SRCS += \
 OBJS += \
 ./ADC.obj \
 ./BUTTON.obj \
+./FILTER.obj \
 ./INTERRUPTS.obj \
 ./LED.obj \
 ./MISC.obj \
+./PROCESSING.obj \
 ./SPI.obj \
 ./SYSTEM.obj \
 ./TIMERS.obj \
@@ -37,9 +41,11 @@ OBJS += \
 C_DEPS += \
 ./ADC.pp \
 ./BUTTON.pp \
+./FILTER.pp \
 ./INTERRUPTS.pp \
 ./LED.pp \
 ./MISC.pp \
+./PROCESSING.pp \
 ./SPI.pp \
 ./SYSTEM.pp \
 ./TIMERS.pp \
@@ -51,9 +57,11 @@ C_DEPS += \
 C_DEPS__QUOTED += \
 "ADC.pp" \
 "BUTTON.pp" \
+"FILTER.pp" \
 "INTERRUPTS.pp" \
 "LED.pp" \
 "MISC.pp" \
+"PROCESSING.pp" \
 "SPI.pp" \
 "SYSTEM.pp" \
 "TIMERS.pp" \
@@ -65,9 +73,11 @@ C_DEPS__QUOTED += \
 OBJS__QUOTED += \
 "ADC.obj" \
 "BUTTON.obj" \
+"FILTER.obj" \
 "INTERRUPTS.obj" \
 "LED.obj" \
 "MISC.obj" \
+"PROCESSING.obj" \
 "SPI.obj" \
 "SYSTEM.obj" \
 "TIMERS.obj" \
@@ -79,9 +89,11 @@ OBJS__QUOTED += \
 C_SRCS__QUOTED += \
 "../ADC.c" \
 "../BUTTON.c" \
+"../FILTER.c" \
 "../INTERRUPTS.c" \
 "../LED.c" \
 "../MISC.c" \
+"../PROCESSING.c" \
 "../SPI.c" \
 "../SYSTEM.c" \
 "../TIMERS.c" \

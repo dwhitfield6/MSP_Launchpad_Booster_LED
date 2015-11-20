@@ -58,4 +58,7 @@ void MSC_LowercaseChar(unsigned char* Input);
 unsigned short MSC_HEXtoBCD(unsigned short input);
 unsigned short MSC_BCDtoHEX(unsigned short input);
 unsigned long MSC_Endian(unsigned long number, unsigned char bits, unsigned char style);
+void MSC_Test0Toggle(void);
+unsigned char MSC_Test0(unsigned char state);
+
 #endif	/* MISC_H */

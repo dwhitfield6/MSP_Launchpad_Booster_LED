@@ -146,6 +146,10 @@ void Init_App(void)
     /* Shutdown */
     Port_FilterSHDN |= Pin_FilterSHDN; // set to output
 
+    /*~~~~~~~~~~~~~ Test points ~~~~~~~~~~~~~~~~~*/
+    /* Test point 0 */
+    Port_Test0 |= Pin_Test0; // set to output
+
 }
 
 /******************************************************************************/

@@ -546,6 +546,51 @@ unsigned long MSC_Endian(unsigned long number, unsigned char bits, unsigned char
     }
 }
 
+/******************************************************************************/
+/* MSC_Test0Toggle
+ *
+ * The function toggles the test point 0.
+ *
+ * Input: N/A
+ * Output: N/A
+ * Action: toggles the test point 0
+ *                                                                            */
+/******************************************************************************/
+void MSC_Test0Toggle(void)
+{
+	P3OUT ^= Pin_Test0;
+}
+
+/******************************************************************************/
+/* MSC_Test0
+ *
+ * The function controls the test point 0.
+ *
+ * Input: state (ON or OFF)
+ * Output: the previous state of the test point 0
+ * Action: controls the test point 0
+ *                                                                            */
+/******************************************************************************/
+unsigned char MSC_Test0(unsigned char state)
+{
+	unsigned char status = FALSE;
+
+	if(P3IN & Pin_Test0)
+	{
+		status = TRUE;
+	}
+
+    if(state)
+    {
+    	P3OUT |= Pin_Test0;	// turn on the test point 0
+    }
+    else
+    {
+    	P3OUT &= ~Pin_Test0;	// turn off the test point 0
+    }
+    return status;
+}
+
 /*-----------------------------------------------------------------------------/
  End of File
 /-----------------------------------------------------------------------------*/

@@ -9,6 +9,9 @@
  * 10/21/15     4.0_DW0b    Added low pass filter IC functionality.
  * 							Fixed some comment errors.
  * 							Changed version to continue developement.
+ * 							Increased clock frequency to 16MHz.
+ * 							Created beat detecting algorithm.
+ * 							Fixed several bugs in system frequency calculation.
  * 10/14/15     4.0_DW0a    Initial project make (branched from
  * 							  "MSP_Launchpad_MSP430FR5969_Test".
  * 							Added base periperal functionality for ADC,
@@ -54,8 +57,11 @@ unsigned short test[16] = {0,2048,0,0,0,0,0,0,0,0,0,0,5000,0,0,0};
 
 int main (void)
 {
-	short temp = 0;
-	unsigned short window;
+	short tempsample = 0;
+	short tempaverageBig = 0;
+	short tempaverageSmall = 0;
+	short temp;
+	unsigned short volume;
 
 	WDTCTL = WDTPW | WDTHOLD;               // Stop watchdog timer
 
@@ -69,16 +75,23 @@ int main (void)
     LED_DisplayShow();
 
     /* Initialize variables */
-    ADC_SetMidpointOffset(AUDIOLOW);
+    ADC_SetMidpointOffset(AUDIORAW);
 
     while(1)
     {
-    	window = ProcessingWindow;
-    	temp = ADC_SampleWait(AUDIOLOW) - ADC_Midpoint_Offset[AUDIOLOW] - ADC_LEEWAY;
-    	PRO_AddToProcessBuffer(temp);
-    	temp = (short) PRO_ProcessData(WEIGHTED_POS_AVERAGE_d5X, window);
-    	TLC_SetLEDsLinear(temp, 250, FadeDirection);
-    	//TLC_SetLEDs(test);
+    	MSC_Test0Toggle(); // toggle so we know the sampling rate
+    	volume = GlobalVolume; // update small processing window
+    	tempsample = ADC_SampleWait(AUDIORAW) - ADC_Midpoint_Offset[AUDIORAW] - ADC_LEEWAY; // sample ADC
+
+    	/* add to sample to  averagers */
+    	PRO_AddToProcessBuffer(tempsample, 0);
+    	PRO_AddToProcessBuffer(tempsample, 1);
+    	tempaverageBig = (short) PRO_ProcessData(POS_AVERAGE, 20, 0);
+    	tempaverageSmall = (short) PRO_ProcessData(POS_AVERAGE, 1, 1);
+
+    	temp = (short) MSC_ABSL((long)tempaverageSmall - (long)tempaverageBig);
+
+    	TLC_SetLEDsLinear(temp, volume, FadeDirection);
     }
 	return 0;
 }

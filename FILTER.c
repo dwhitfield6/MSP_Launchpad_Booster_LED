@@ -42,7 +42,7 @@
 /******************************************************************************/
 void Init_Filter(void)
 {
-	FTR_SetCutoff(100);
+	FTR_SetCutoff(50);
 	TB0CCTL1 |= CLLD1 + CLLD0; // TBxCLn loads when TBxR counts to TBxCLn
 	TB0CCTL1 |= OUTMOD1 + OUTMOD0; // 011b = Set/reset
 	TMR_ModeTimerB0(UP);
@@ -64,10 +64,12 @@ void FTR_SetCutoff(unsigned long frequency)
 {
 	unsigned char status;
 	unsigned long temp = 0;
+	double Fc;
 
 	/* FC = FCLK / 100 */
-	frequency *= 100;
-	temp = (unsigned long) MSC_Round((double) SMCLK_Freq / (double)frequency);
+	Fc = (double)frequency * 100.0;
+
+	temp = (unsigned long) MSC_Round((double) SMCLK_Freq / Fc);
 	if(temp > 0xFFFF)
 	{
 		temp = 0xFFFF;

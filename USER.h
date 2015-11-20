@@ -147,6 +147,11 @@
 #define Port_FilterSHDN		P3DIR 	// P3.0
 #define Pin_FilterSHDN		0x01  	// P3.0
 
+/************* Test points *************/
+/* Test point 0 */
+#define Port_Test0		P3DIR 		// P3.6
+#define Pin_Test0		0x40  		// P3.6
+
 /******************************************************************************/
 /* Version variables                                                          */
 /******************************************************************************/

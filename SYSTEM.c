@@ -66,8 +66,9 @@ void SYS_ConfigureOscillator(void)
 	CSCTL4 &= ~LFXTOFF; // LFXT is on
 	CSCTL4 &= ~VLOOFF; // VLO is on
 
+	FRCTL0 = FRCTLPW + NWAITS_1; // write password and wait state
 	CSCTL1 |= DCORSEL; // high speed mode
-	CSCTL1 |= DCOFSEL1 | DCOFSEL0; // 011b = 8 MHz
+	CSCTL1 |= DCOFSEL2; //100b = 16 MHz
 
 	/* Turn on SMCLK */
 	CSCTL4 &= ~SMCLKOFF;
@@ -138,17 +139,17 @@ void SYS_CalculateClocks(void)
 			DCOCLK_Freq = 8000000;
 			break;
 		case 0b100:
-			DCOCLK_Freq = 1600000;
+			DCOCLK_Freq = 16000000;
 			break;
 		case 0b101:
-			DCOCLK_Freq = 2100000;
+			DCOCLK_Freq = 21000000;
 			break;
 		case 0b110:
-			DCOCLK_Freq = 2400000;
+			DCOCLK_Freq = 24000000;
 			break;
 		default:
 			/* not recommended */
-			DCOCLK_Freq = 2400000;
+			DCOCLK_Freq = 24000000;
 			break;
 		}
 	}

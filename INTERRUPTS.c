@@ -102,9 +102,9 @@ __interrupt void Port1_ISR(void)
 	{
 		/* Button 2 was pressed */
 		LED_Green(ON);
-		if(ProcessingWindow < DATA_BUFFER_SIZE)
+		if(GlobalVolume > 10)
 		{
-			ProcessingWindow += 5;
+			GlobalVolume -= 10;
 		}
 		TMR_ResetTimerA0();
 		TMR_ModeTimerA0(UP);
@@ -129,9 +129,9 @@ __interrupt void Port4_ISR(void)
 	{
 		/* Button 1 was pressed */
 		LED_Red(ON);
-		if(ProcessingWindow > 5)
+		if(GlobalVolume < 1000)
 		{
-			ProcessingWindow -= 5;
+			GlobalVolume += 10;
 		}
 		TMR_ResetTimerA1();
 		TMR_ModeTimerA1(UP);
@@ -164,6 +164,7 @@ __interrupt void TIMER0_A1_ISR(void)
 	unsigned short source;
 
 	source = TA0IV;
+	TA0CTL &= ~TAIFG;
 }
 
 /******************************************************************************/
@@ -190,6 +191,7 @@ __interrupt void TIMER1_A1_ISR(void)
 	unsigned short source;
 
 	source = TA1IV;
+	TA1CTL &= ~TAIFG;
 }
 
 /******************************************************************************/
@@ -213,6 +215,7 @@ __interrupt void Timer2_A1_ISR(void)
 	unsigned short source;
 
 	source = TA2IV;
+	TA2CTL &= ~TAIFG;
 }
 
 /******************************************************************************/
@@ -235,6 +238,7 @@ __interrupt void Timer0_B1_ISR(void)
 	unsigned short source;
 
 	source = TB0IV;
+	TB0CTL &= ~TBIFG;
 }
 
 /******************************************************************************/

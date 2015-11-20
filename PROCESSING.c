@@ -34,13 +34,13 @@
  *                                                                            */
 /******************************************************************************/
 short ADC_MIDPOINT_OFFSET;
-short ProcessingWindow = 10;
+short GlobalVolume = 150;
 
 /******************************************************************************/
 /* Global Variables                                                           */
 /******************************************************************************/
 #pragma SET_DATA_SECTION(".fram_vars")
-short DataBuffer[DATA_BUFFER_SIZE];
+short DataBuffer[2][DATA_BUFFER_SIZE];
 #pragma SET_DATA_SECTION()
 
 /******************************************************************************/
@@ -85,16 +85,16 @@ void PRO_ClearProcessBuffer(void)
  *  1 to the right
  *                                                                            */
 /******************************************************************************/
-void PRO_AddToProcessBuffer(short data)
+void PRO_AddToProcessBuffer(short data, unsigned char channel)
 {
 	short i;
 
 	for(i=(DATA_BUFFER_SIZE -2);i >= 0;i--)
 	{
 		/* move everything to the right 1 */
-		DataBuffer[i+1] = DataBuffer[i];
+		DataBuffer[channel][i+1] = DataBuffer[channel][i];
 	}
-	DataBuffer[0] = data;
+	DataBuffer[channel][0] = data;
 }
 
 /******************************************************************************/
@@ -109,7 +109,7 @@ void PRO_AddToProcessBuffer(short data)
  *  1 to the right
  *                                                                            */
 /******************************************************************************/
-long PRO_ProcessData(unsigned char type, short window)
+long PRO_ProcessData(unsigned char type, short window, unsigned char channel)
 {
 	short i;
 	unsigned long temp;
@@ -131,7 +131,7 @@ long PRO_ProcessData(unsigned char type, short window)
 		temp = 0;
 		for(i=0; i<window;i++)
 		{
-			temp += DataBuffer[i];
+			temp += DataBuffer[channel][i];
 		}
 		temp /= window;
 		break;
@@ -140,7 +140,7 @@ long PRO_ProcessData(unsigned char type, short window)
 		temp = 0;
 		for(i=0; i<window;i++)
 		{
-			temp += MSC_ABSL(DataBuffer[i]);
+			temp += MSC_ABSL(DataBuffer[channel][i]);
 		}
 		temp /= window;
 		break;
@@ -150,9 +150,9 @@ long PRO_ProcessData(unsigned char type, short window)
 		denominator = 0;
 		for(i=0; i<window;i++)
 		{
-			if(DataBuffer[i] >= 0)
+			if(DataBuffer[channel][i] >= 0)
 			{
-				temp += DataBuffer[i];
+				temp += DataBuffer[channel][i];
 				denominator++;
 			}
 		}
@@ -167,9 +167,9 @@ long PRO_ProcessData(unsigned char type, short window)
 		denominator = 0;
 		for(i=0; i<window;i++)
 		{
-			if(DataBuffer[i] <= 0)
+			if(DataBuffer[channel][i] <= 0)
 			{
-				temp += DataBuffer[i];
+				temp += DataBuffer[channel][i];
 				denominator++;
 			}
 		}
@@ -183,7 +183,7 @@ long PRO_ProcessData(unsigned char type, short window)
 		temp = 0;
 		for(i=0; i<window;i++)
 		{
-			temp += DataBuffer[i] * DataBuffer[i]; // x^2
+			temp += DataBuffer[channel][i] * DataBuffer[channel][i]; // x^2
 		}
 		temp /= window;
 		temp = (long) sqrt((double)temp);
@@ -194,7 +194,7 @@ long PRO_ProcessData(unsigned char type, short window)
 		denominator = 0;
 		for(i=0; i<window;i++)
 		{
-			temp += DataBuffer[i] * (window - i);
+			temp += DataBuffer[channel][i] * (window - i);
 			denominator += (window - i);
 		}
 		temp /= denominator;
@@ -205,7 +205,7 @@ long PRO_ProcessData(unsigned char type, short window)
 		denominator = 0;
 		for(i=0; i<window;i++)
 		{
-			temp += MSC_ABSL(DataBuffer[i] * (window - i));
+			temp += MSC_ABSL(DataBuffer[channel][i] * (window - i));
 			denominator += (window - i);
 		}
 		temp /= denominator;
@@ -216,9 +216,9 @@ long PRO_ProcessData(unsigned char type, short window)
 		denominator = 0;
 		for(i=0; i<window;i++)
 		{
-			if(DataBuffer[i] >= 0)
+			if(DataBuffer[channel][i] >= 0)
 			{
-				temp += (DataBuffer[i] * (window - i));
+				temp += (DataBuffer[channel][i] * (window - i));
 				denominator += (window - i);
 			}
 		}
@@ -233,9 +233,9 @@ long PRO_ProcessData(unsigned char type, short window)
 		denominator = 0;
 		for(i=0; i<window;i++)
 		{
-			if(DataBuffer[i] <= 0)
+			if(DataBuffer[channel][i] <= 0)
 			{
-				temp += (DataBuffer[i] * (window - i));
+				temp += (DataBuffer[channel][i] * (window - i));
 				denominator += (window - i);
 			}
 		}
@@ -250,7 +250,7 @@ long PRO_ProcessData(unsigned char type, short window)
 		denominator = 0;
 		for(i=0; i<window;i++)
 		{
-			temp += DataBuffer[i] * (window - i) * (window - i);
+			temp += DataBuffer[channel][i] * (window - i) * (window - i);
 			denominator += (window - i) * (window - i);
 		}
 		temp /= denominator;
@@ -261,7 +261,7 @@ long PRO_ProcessData(unsigned char type, short window)
 		denominator = 0;
 		for(i=0; i<window;i++)
 		{
-			temp += MSC_ABSL(DataBuffer[i] * (window - i) * (window - i));
+			temp += MSC_ABSL(DataBuffer[channel][i] * (window - i) * (window - i));
 			denominator += (window - i) * (window - i);
 		}
 		temp /= denominator;
@@ -272,9 +272,9 @@ long PRO_ProcessData(unsigned char type, short window)
 		denominator = 0;
 		for(i=0; i<window;i++)
 		{
-			if(DataBuffer[i] >= 0)
+			if(DataBuffer[channel][i] >= 0)
 			{
-				temp += (DataBuffer[i] * (window - i) * (window - i));
+				temp += (DataBuffer[channel][i] * (window - i) * (window - i));
 				denominator += (window - i) * (window - i);
 			}
 		}
@@ -289,9 +289,9 @@ long PRO_ProcessData(unsigned char type, short window)
 		denominator = 0;
 		for(i=0; i<window;i++)
 		{
-			if(DataBuffer[i] <= 0)
+			if(DataBuffer[channel][i] <= 0)
 			{
-				temp += (DataBuffer[i] * (window - i) * (window - i));
+				temp += (DataBuffer[channel][i] * (window - i) * (window - i));
 				denominator += (window - i) * (window - i);
 			}
 		}
@@ -306,7 +306,7 @@ long PRO_ProcessData(unsigned char type, short window)
 		denominator = 0;
 		for(i=0; i<window;i++)
 		{
-			temp += DataBuffer[i] * ((window - i) / 2);
+			temp += DataBuffer[channel][i] * ((window - i) / 2);
 			denominator += (window - i) / 2;
 		}
 		temp /= denominator;
@@ -317,7 +317,7 @@ long PRO_ProcessData(unsigned char type, short window)
 		denominator = 0;
 		for(i=0; i<window;i++)
 		{
-			temp += MSC_ABSL(DataBuffer[i] * ((window - i) / 2));
+			temp += MSC_ABSL(DataBuffer[channel][i] * ((window - i) / 2));
 			denominator += (window - i) / 2;
 		}
 		temp /= denominator;
@@ -328,9 +328,9 @@ long PRO_ProcessData(unsigned char type, short window)
 		denominator = 0;
 		for(i=0; i<window;i++)
 		{
-			if(DataBuffer[i] >= 0)
+			if(DataBuffer[channel][i] >= 0)
 			{
-				temp += (DataBuffer[i] * ((window - i) / 2));
+				temp += (DataBuffer[channel][i] * ((window - i) / 2));
 				denominator += (window - i) / 2;
 			}
 		}
@@ -345,9 +345,9 @@ long PRO_ProcessData(unsigned char type, short window)
 		denominator = 0;
 		for(i=0; i<window;i++)
 		{
-			if(DataBuffer[i] <= 0)
+			if(DataBuffer[channel][i] <= 0)
 			{
-				temp += (DataBuffer[i] * ((window - i) / 2));
+				temp += (DataBuffer[channel][i] * ((window - i) / 2));
 				denominator += (window - i) / 2;
 			}
 		}

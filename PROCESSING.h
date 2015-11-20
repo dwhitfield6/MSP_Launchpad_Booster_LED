@@ -60,8 +60,8 @@
 /******************************************************************************/
 /* Global Variables                                                           */
 /******************************************************************************/
-extern short DataBuffer[DATA_BUFFER_SIZE];
-extern short ProcessingWindow;
+extern short DataBuffer[2][DATA_BUFFER_SIZE];
+extern short GlobalVolume;
 
 /******************************************************************************/
 /* Macro Functions                                                            */
@@ -72,7 +72,7 @@ extern short ProcessingWindow;
 /******************************************************************************/
 void Init_Processing(void);
 void PRO_ClearProcessBuffer(void);
-void PRO_AddToProcessBuffer(short data);
-long PRO_ProcessData(unsigned char type, short window);
+void PRO_AddToProcessBuffer(short data, unsigned char channel);
+long PRO_ProcessData(unsigned char type, short window, unsigned char channel);
 
 #endif	/* PROCESSING_H */
